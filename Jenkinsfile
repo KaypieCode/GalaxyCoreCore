@@ -2,6 +2,10 @@ pipeline {
   agent any
 
   stages {
+    stage('initialize') {
+      sh 'source /etc/profile.d/apachemaven.sh' // Use maven
+    }
+
     stage('compile') {
       steps {
         sh 'mvn clean install'

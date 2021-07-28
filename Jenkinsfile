@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('initialize') {
       steps {
-        sh 'source /etc/profile.d/apachemaven.sh' // Use maven
+        sh '/etc/profile.d/apachemaven.sh' // Use maven
       }
     }
 

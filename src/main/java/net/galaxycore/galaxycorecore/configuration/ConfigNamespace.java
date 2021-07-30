@@ -37,7 +37,7 @@ public class ConfigNamespace {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "";
+        return null;
     }
 
     public void set(String key, String value){

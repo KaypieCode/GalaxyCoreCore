@@ -1,16 +1,22 @@
 package net.galaxycore.galaxycorecore;
 
+import lombok.Getter;
+import net.galaxycore.galaxycorecore.configuration.DatabaseConfiguration;
+import net.galaxycore.galaxycorecore.configuration.InternalConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
 public final class Galaxycorecore extends JavaPlugin {
+    private DatabaseConfiguration databaseConfiguration;
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
+        InternalConfiguration internalConfiguration = new InternalConfiguration(getDataFolder());
+        databaseConfiguration = new DatabaseConfiguration(internalConfiguration);
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        databaseConfiguration.disable();
     }
 }

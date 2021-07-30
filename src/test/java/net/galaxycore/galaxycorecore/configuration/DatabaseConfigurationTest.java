@@ -48,5 +48,7 @@ class DatabaseConfigurationTest {
             assertTrue(new File(dataFolder, "TestDatabase.sqlite").exists());
 
         databaseConfiguration.disable();
+
+        fail();
     }
 }

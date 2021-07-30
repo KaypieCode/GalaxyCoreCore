@@ -7,7 +7,6 @@ public final class Galaxycorecore extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-
     }
 
     @Override

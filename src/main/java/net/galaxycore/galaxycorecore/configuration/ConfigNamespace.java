@@ -14,7 +14,7 @@ public class ConfigNamespace {
 
         try {
             //noinspection SqlNoDataSourceInspection
-            PreparedStatement statement = configuration.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS " + name + "(key varchar(64), value varchar(1024));");
+            PreparedStatement statement = configuration.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS " + name + " (`key` VARCHAR(100), `value` VARCHAR(1024));");
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -43,11 +43,12 @@ public class ConfigNamespace {
     public void set(String key, String value){
         try {
             PreparedStatement statement = configuration.getConnection().prepareStatement("SELECT `value` FROM " + name + " WHERE `key` = ?;");
+            statement.setString(1, key);
 
             if (statement.executeQuery().next()) {
                 statement = configuration.getConnection().prepareStatement("UPDATE " + name + " SET `value`=? WHERE `key` = ?;");
             }else
-                statement = configuration.getConnection().prepareStatement("INSERT INTO " + name + " (value, key) VALUES (?, ?)");
+                statement = configuration.getConnection().prepareStatement("INSERT INTO " + name + " (`value`, `key`) VALUES (?, ?)");
 
             statement.setString(1, value);
             statement.setString(2, key);

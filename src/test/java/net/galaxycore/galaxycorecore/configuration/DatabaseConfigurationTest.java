@@ -43,7 +43,9 @@ class DatabaseConfigurationTest {
         namespace.set("testkey", "testvalue");
 
         assertEquals(namespace.get("testkey"), "testvalue");
-        assertTrue(new File(dataFolder, "TestDatabase.sqlite").exists());
+
+        if (internalConfigurationMock.getConnection().equals("sqlite"))
+            assertTrue(new File(dataFolder, "TestDatabase.sqlite").exists());
 
         databaseConfiguration.disable();
     }

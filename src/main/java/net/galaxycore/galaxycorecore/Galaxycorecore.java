@@ -7,12 +7,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
 public final class Galaxycorecore extends JavaPlugin {
-    private InternalConfiguration internalConfiguration;
     private DatabaseConfiguration databaseConfiguration;
 
     @Override
     public void onEnable() {
-        internalConfiguration = new InternalConfiguration(getDataFolder());
+        InternalConfiguration internalConfiguration = new InternalConfiguration(getDataFolder());
         databaseConfiguration = new DatabaseConfiguration(internalConfiguration);
     }
 

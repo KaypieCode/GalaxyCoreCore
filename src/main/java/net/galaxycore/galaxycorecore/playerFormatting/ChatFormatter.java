@@ -1,7 +1,7 @@
 package net.galaxycore.galaxycorecore.playerFormatting;
 
 import lombok.Getter;
-import net.galaxycore.galaxycorecore.Galaxycorecore;
+import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
 import net.galaxycore.galaxycorecore.utils.StringUtils;
@@ -13,10 +13,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 @Getter
 public class ChatFormatter implements Listener {
-    private final Galaxycorecore galaxycorecore;
+    private final GalaxyCoreCore galaxycorecore;
     private final ConfigNamespace configNamespace;
 
-    public ChatFormatter(Galaxycorecore galaxycorecore){
+    public ChatFormatter(GalaxyCoreCore galaxycorecore){
         this.galaxycorecore = galaxycorecore;
         this.configNamespace = galaxycorecore.getCoreNamespace();
     }

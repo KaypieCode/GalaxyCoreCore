@@ -37,7 +37,7 @@ public class LuckPermsApiWrapper {
             throw new MissingFieldException("Prefix");
     }
 
-    public String getPermissionsChatColor(){
+    public String getPermissionsColor(){
         @Nullable String suffix = primaryGroup.getCachedData().getMetaData().getSuffix();
 
         if (suffix != null)

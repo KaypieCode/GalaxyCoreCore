@@ -1,16 +1,24 @@
-package net.galaxycore.galaxycorecore.utils;
+package net.galaxycore.galaxycorecore.playerFormatting;
 
+import net.galaxycore.galaxycorecore.GalaxyCoreCore;
+import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-class StringUtilsTest {
+class TablistFormatterTest {
 
     @Test
-    void replaceRelevant() {
+    void calculatePlayerListName() {
+        ConfigNamespace mockNamespace = mock(ConfigNamespace.class);
+        when(mockNamespace.get("tablist.format")).thenReturn("%rank_prefix%%rank_color% %player%");
+
+        GalaxyCoreCore mockMain = mock(GalaxyCoreCore.class);
+        when(mockMain.getCoreNamespace()).thenReturn(mockNamespace);
+
         Player mockPlayer = mock(Player.class);
         when(mockPlayer.getName()).thenReturn("Deppelopfer");
         when(mockPlayer.hasPermission("core.chat.important")).thenReturn(true);
@@ -22,12 +30,11 @@ class StringUtilsTest {
         when(mockWrapper.getPermissionsPrefix()).thenReturn("testprefix");
         when(mockWrapper.getPermissionsGroupNameRaw()).thenReturn("testrawname");
 
-        String testString = "%player% - %rank_displayname% - %rank_color% - %rank_prefix% - %rank_name% - %chat_important%";
-        String expected = "Deppelopfer - testname - testcolor - testprefix - testrawname - §c";
+        TablistFormatter tablistFormatter = new TablistFormatter(mockMain);
 
-        String actual = StringUtils.replaceRelevant(testString, mockWrapper);
+        String expected = "testprefixtestcolor Deppelopfer";
+        String actual = tablistFormatter.calculatePlayerListName(mockWrapper);
 
         assertEquals(expected, actual);
-
     }
 }

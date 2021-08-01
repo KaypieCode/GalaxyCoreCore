@@ -12,7 +12,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
-public final class Galaxycorecore extends JavaPlugin {
+public class GalaxyCoreCore extends JavaPlugin {
     // CONFIGURATION //
     private DatabaseConfiguration databaseConfiguration;
     private ConfigNamespace coreNamespace;

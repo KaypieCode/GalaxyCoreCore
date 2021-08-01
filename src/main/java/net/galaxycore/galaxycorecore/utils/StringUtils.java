@@ -9,6 +9,7 @@ public class StringUtils {
         input = input.replaceAll("%rank_color%", wrapper.getPermissionsChatColor());
         input = input.replaceAll("%rank_prefix%", wrapper.getPermissionsPrefix());
         input = input.replaceAll("%rank_name%", wrapper.getPermissionsGroupNameRaw());
+        input = input.replaceAll("%chat_important%", wrapper.getPlayer().hasPermission("core.chat.important") ? "§c" : "");
 
         return input;
     }

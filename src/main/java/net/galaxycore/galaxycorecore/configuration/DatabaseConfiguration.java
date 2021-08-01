@@ -17,8 +17,6 @@ public class DatabaseConfiguration {
                                 + internalConfiguration.getSqlite_name(),
                         "sa",
                         "");
-                System.out.println(internalConfiguration.getDataFolder().getAbsolutePath() + "/"
-                        + internalConfiguration.getSqlite_name());
             } else {
                 connection = DriverManager.getConnection(
                         "jdbc:mysql://" + internalConfiguration.getMysql_host() + ":"

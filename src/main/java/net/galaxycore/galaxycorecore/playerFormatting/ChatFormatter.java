@@ -1,4 +1,4 @@
-package net.galaxycore.galaxycorecore.formatting;
+package net.galaxycore.galaxycorecore.playerFormatting;
 
 import lombok.Getter;
 import net.galaxycore.galaxycorecore.Galaxycorecore;
@@ -21,7 +21,7 @@ public class ChatFormatter implements Listener {
         this.configNamespace = galaxycorecore.getCoreNamespace();
     }
 
-    @SuppressWarnings("deprecation") // Needed for Independent ChatColor
+    @SuppressWarnings("deprecation") // Paper wants its Components, but it wouldn't be performant to use those here
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChatMessage(AsyncPlayerChatEvent event){
         String message = event.getMessage();

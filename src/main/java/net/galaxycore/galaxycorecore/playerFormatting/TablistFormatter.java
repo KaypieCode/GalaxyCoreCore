@@ -1,4 +1,4 @@
-package net.galaxycore.galaxycorecore.formatting;
+package net.galaxycore.galaxycorecore.playerFormatting;
 
 import lombok.Getter;
 import net.galaxycore.galaxycorecore.Galaxycorecore;
@@ -7,9 +7,7 @@ import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
 import net.galaxycore.galaxycorecore.utils.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 @Getter
@@ -27,10 +25,12 @@ public class TablistFormatter implements Listener {
         Player player = event.getPlayer();
         LuckPermsApiWrapper luckPermsApiWrapper = new LuckPermsApiWrapper(player);
 
-        String playerName = StringUtils.replaceRelevant(configNamespace.get("tablist.format"), luckPermsApiWrapper);
-
-        // Paper wants its Components, it would be not performant to use that here
+        // Paper wants its Components, but it wouldn't be performant to use those here
         //noinspection deprecation
-        player.setPlayerListName(playerName);
+        player.setPlayerListName(calculatePlayerListName(luckPermsApiWrapper));
+    }
+
+    public String calculatePlayerListName(LuckPermsApiWrapper apiWrapper){
+        return StringUtils.replaceRelevant(configNamespace.get("tablist.format"), apiWrapper);
     }
 }

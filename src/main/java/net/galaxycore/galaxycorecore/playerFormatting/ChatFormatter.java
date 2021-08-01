@@ -6,26 +6,34 @@ import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
 import net.galaxycore.galaxycorecore.utils.StringUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+import java.lang.reflect.InvocationTargetException;
 
 @Getter
 public class ChatFormatter implements Listener {
     private final GalaxyCoreCore galaxycorecore;
     private final ConfigNamespace configNamespace;
 
-    public ChatFormatter(GalaxyCoreCore galaxycorecore){
+    public ChatFormatter(GalaxyCoreCore galaxycorecore) {
         this.galaxycorecore = galaxycorecore;
         this.configNamespace = galaxycorecore.getCoreNamespace();
     }
 
     @SuppressWarnings("deprecation") // Paper wants its Components, but it wouldn't be performant to use those here
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onChatMessage(AsyncPlayerChatEvent event){
+    public void onChatMessage(AsyncPlayerChatEvent event) {
+        handleChatMessage(event, new LuckPermsApiWrapper(event.getPlayer()));
+    }
+
+    @SuppressWarnings("deprecation") // Paper wants its Components, but it wouldn't be performant to use those here
+    public void handleChatMessage(AsyncPlayerChatEvent event, LuckPermsApiWrapper permissionsApiWrapper) {
         String message = event.getMessage();
-        if (event.getPlayer().hasPermission("core.chat.format")){
+        if (event.getPlayer().hasPermission("core.chat.format")) {
             message = message.replace("&l", "§l");
             message = message.replace("&n", "§n");
             message = message.replace("&o", "§o");
@@ -33,7 +41,7 @@ public class ChatFormatter implements Listener {
             message = message.replace("&m", "§m");
         }
 
-        if (event.getPlayer().hasPermission("core.chat.color")){
+        if (event.getPlayer().hasPermission("core.chat.color")) {
             message = message.replace("&0", "§0");
             message = message.replace("&1", "§1");
             message = message.replace("&2", "§2");
@@ -54,7 +62,7 @@ public class ChatFormatter implements Listener {
         }
 
         String format = configNamespace.get("chat.format");
-        format = StringUtils.replaceRelevant(format, new LuckPermsApiWrapper(event.getPlayer()));
+        format = StringUtils.replaceRelevant(format, permissionsApiWrapper);
         format = ChatColor.translateAlternateColorCodes('&', format);
         format = format + message + "§f";
 

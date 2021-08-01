@@ -22,6 +22,11 @@ public class ConfigNamespace {
         }
     }
 
+    public void setDefault(String key, String value){
+        if (get(key) == null)
+            set(key, value);
+    }
+
     public String get(String key){
         try {
             //noinspection SqlNoDataSourceInspection

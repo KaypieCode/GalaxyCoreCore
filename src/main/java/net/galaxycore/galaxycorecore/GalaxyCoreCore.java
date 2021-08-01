@@ -32,6 +32,11 @@ public class GalaxyCoreCore extends JavaPlugin {
 
         coreNamespace = databaseConfiguration.getNamespace("core");
 
+        // I18N
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+            // Do stuff
+        });
+
         // DEFAULT CONFIG VALUES //
         coreNamespace.setDefault("chat.format", "%rank_displayname% §8| %rank_color%%player% §8» §7%chat_important%");
         coreNamespace.setDefault("tablist.format", "%rank_prefix%%rank_color% %player%");

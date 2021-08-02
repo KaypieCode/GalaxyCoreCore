@@ -7,9 +7,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConfiguration {
+    @Getter private final InternalConfiguration internalConfiguration;
     @Getter private Connection connection;
 
     public DatabaseConfiguration(InternalConfiguration internalConfiguration){
+        this.internalConfiguration = internalConfiguration;
         try {
             if (internalConfiguration.getConnection().equals("sqlite")){
                 connection = DriverManager.getConnection(

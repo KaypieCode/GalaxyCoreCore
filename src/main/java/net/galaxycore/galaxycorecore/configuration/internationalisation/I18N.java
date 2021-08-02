@@ -128,7 +128,7 @@ public class I18N {
                         .append(value)
                         .append("') WHERE NOT EXISTS(SELECT * FROM `I18N_language_data` WHERE `key`='")
                         .append(key)
-                        .append("');\n")));
+                        .append("'));\n")));
 
         System.out.println(bobTheSqlBuilder.toString());
 

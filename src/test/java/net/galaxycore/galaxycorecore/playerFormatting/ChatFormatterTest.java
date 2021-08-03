@@ -28,6 +28,7 @@ class ChatFormatterTest {
 
         GalaxyCoreCore mockMain = mock(GalaxyCoreCore.class);
         when(mockMain.getCoreNamespace()).thenReturn(mockNamespace);
+        when(mockMain.getChatBuffer()).thenReturn(null);
 
         LuckPermsApiWrapper mockWrapper = mock(LuckPermsApiWrapper.class);
         when(mockWrapper.getPlayer()).thenReturn(mockPlayer);

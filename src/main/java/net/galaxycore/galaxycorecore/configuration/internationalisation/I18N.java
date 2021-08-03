@@ -14,34 +14,32 @@ import java.util.logging.Logger;
 
 public class I18N {
     private static I18N instance = null;
-    private final Logger logger;
     private final DatabaseConfiguration databaseConfiguration;
 
+    private final HashMap<String, I18N.MinecraftLocale> languages = new HashMap<>();
     private HashMap<I18N.MinecraftLocale, HashMap<String, String>> language_data = new HashMap<>();
-    private HashMap<String, I18N.MinecraftLocale> languages = new HashMap<>();
 
     private I18N(GalaxyCoreCore core) {
         databaseConfiguration = core.getDatabaseConfiguration();
-        logger = Logger.getLogger(this.getClass().getName());
+        Logger logger = Logger.getLogger(this.getClass().getName());
+
 
         try {
-            Class.forName("net.galaxycore.galaxycorecore.configuration.internationalisation.I18NTest");
-
-            logger.setLevel(Level.OFF);
-        } catch (ClassNotFoundException ignored) {
-        } // Not a test environment
-
-        try {
-            databaseConfiguration.getConnection().prepareStatement(
-                    FileUtils.readSqlScript(
-                            "i18n",
-                            "initialize",
-                            databaseConfiguration.getInternalConfiguration().getConnection()
-                                    .equals("sqlite") ? "sqlite" : "mysql"
-                    )
-            ).executeUpdate();
+            for (String query : FileUtils.readSqlScript("i18n", "initialize", databaseConfiguration.getInternalConfiguration().getConnection().equals("sqlite") ? "sqlite" : "mysql").split("\n")) {
+                databaseConfiguration.getConnection().prepareStatement(query).executeUpdate();
+            }
 
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        try {
+            if (!databaseConfiguration.getConnection().prepareStatement("SELECT id FROM I18N_languages;").executeQuery().next()){
+                databaseConfiguration.getConnection().prepareStatement("INSERT INTO I18N_languages (id, lang, head_data, english_name, local_name, date_fmt, time_fmt) VALUES (1, 'de_DE', 'head_de_DE', 'German', 'Deutsch', 'DD.MM.YYYY', 'mm:ss');").executeUpdate();
+                databaseConfiguration.getConnection().prepareStatement("INSERT INTO I18N_languages (id, lang, head_data, english_name, local_name, date_fmt, time_fmt) VALUES (2, 'fr_FR', 'head_fr_FR', 'French', 'Francais', 'DD.MM.YYYY', 'mm:ss');").executeUpdate();
+            }
+        }
+        catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
@@ -100,12 +98,38 @@ public class I18N {
                         .append(value)
                         .append("' WHERE NOT EXISTS(SELECT * FROM `I18N_language_data` WHERE `key`='")
                         .append(key)
-                        .append("');\n")));
+                        .append("' AND `language_id`=")
+                        .append(minecraftLocale.id)
+                        .append(");\n")));
 
         try {
             for (String query : bobTheSqlBuilder.toString().split("\n")) {
                 instance.databaseConfiguration.getConnection().prepareStatement(query).executeUpdate();
             }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        try {
+            ResultSet resultSet = instance.databaseConfiguration.getConnection().prepareStatement(
+                    FileUtils.readSqlScript(
+                            "i18n",
+                            "loadAll",
+                            instance.databaseConfiguration.getInternalConfiguration().getConnection()
+                                    .equals("sqlite") ? "sqlite" : "mysql"
+                    )
+            ).executeQuery();
+
+            instance.language_data = new HashMap<>();
+
+            while (resultSet.next()){
+                MinecraftLocale locale = instance.languages.get(resultSet.getString("lang"));
+
+                instance.language_data.computeIfAbsent(locale, minecraftLocale -> new HashMap<>());
+
+                instance.language_data.get(locale).put(resultSet.getString("key"), resultSet.getString("value"));
+            }
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

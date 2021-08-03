@@ -3,6 +3,8 @@ package net.galaxycore.galaxycorecore.configuration.internationalisation;
 import lombok.Getter;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.DatabaseConfiguration;
+import net.galaxycore.galaxycorecore.utils.FileUtils;
+import org.apache.ibatis.annotations.Lang;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,52 +25,22 @@ public class I18N {
         logger = Logger.getLogger(this.getClass().getName());
 
         try {
-            Class.forName("net.galaxycore.galaxycorecore.configuration.internationalization.I18NTest");
+            Class.forName("net.galaxycore.galaxycorecore.configuration.internationalisation.I18NTest");
 
             logger.setLevel(Level.OFF);
         } catch (ClassNotFoundException ignored) {
         } // Not a test environment
 
         try {
-            if (databaseConfiguration.getInternalConfiguration().getConnection().equals("sqlite")) {
-                databaseConfiguration.getConnection().prepareStatement(
-                        "CREATE TABLE IF NOT EXISTS `I18N_language_data` " +
-                                "(`id` INTEGER PRIMARY KEY, " +
-                                "`language_id` INT NOT NULL DEFAULT '0', " +
-                                "`key` VARCHAR NOT NULL, `value` LONGTEXT);"
-                ).executeUpdate();
+            databaseConfiguration.getConnection().prepareStatement(
+                    FileUtils.readSqlScript(
+                            "i18n",
+                            "initialize",
+                            databaseConfiguration.getInternalConfiguration().getConnection()
+                                    .equals("sqlite") ? "sqlite" : "mysql"
+                    )
+            ).executeUpdate();
 
-                databaseConfiguration.getConnection().prepareStatement(
-                        "CREATE TABLE IF NOT EXISTS `I18N_languages` " +
-                                "( `id` INTEGER PRIMARY KEY, " +
-                                "`lang` VARCHAR NOT NULL, " +
-                                "`head_data` TEXT NOT NULL, " +
-                                "`english_name` VARCHAR NOT NULL, " +
-                                "`local_name` VARCHAR NOT NULL, " +
-                                "`date_fmt` VARCHAR NOT NULL, " +
-                                "`time_fmt` VARCHAR NOT NULL);"
-                ).executeUpdate();
-            } else {
-                databaseConfiguration.getConnection().prepareStatement(
-                        "CREATE TABLE IF NOT EXISTS `I18N_language_data` " +
-                                "(`id` INT NOT NULL AUTO_INCREMENT, " +
-                                "`language_id` INT NOT NULL DEFAULT '0', " +
-                                "`key` VARCHAR NOT NULL, `value` LONGTEXT, " +
-                                "UNIQUE KEY `unique_key` (`key`) USING BTREE);"
-                ).executeUpdate();
-
-                databaseConfiguration.getConnection().prepareStatement(
-                        "CREATE TABLE IF NOT EXISTS `I18N_languages` " +
-                                "( `id` INT NOT NULL AUTO_INCREMENT, " +
-                                "`lang` VARCHAR NOT NULL, " +
-                                "`head_data` TEXT NOT NULL, " +
-                                "`english_name` VARCHAR NOT NULL, " +
-                                "`local_name` VARCHAR NOT NULL, " +
-                                "`date_fmt` VARCHAR NOT NULL, " +
-                                "`time_fmt` VARCHAR NOT NULL, " +
-                                "UNIQUE KEY `unique_lang` (`lang`) USING BTREE);"
-                ).executeUpdate();
-            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -120,20 +92,20 @@ public class I18N {
         StringBuilder bobTheSqlBuilder = new StringBuilder();
 
         instance.language_data.forEach((minecraftLocale, localizedKV) -> localizedKV.forEach((key, value) ->
-                bobTheSqlBuilder.append("INSERT INTO `I18N_language_data` (`language_id`, `key`, `value`) SELECT ('")
+                bobTheSqlBuilder.append("INSERT INTO `I18N_language_data` (`language_id`, `key`, `value`) SELECT '")
                         .append(minecraftLocale.id)
                         .append("', '")
                         .append(key)
                         .append("', '")
                         .append(value)
-                        .append("') WHERE NOT EXISTS(SELECT * FROM `I18N_language_data` WHERE `key`='")
+                        .append("' WHERE NOT EXISTS(SELECT * FROM `I18N_language_data` WHERE `key`='")
                         .append(key)
-                        .append("'));\n")));
-
-        System.out.println(bobTheSqlBuilder.toString());
+                        .append("');\n")));
 
         try {
-            instance.databaseConfiguration.getConnection().prepareStatement(bobTheSqlBuilder.toString()).executeLargeUpdate();
+            for (String query : bobTheSqlBuilder.toString().split("\n")) {
+                instance.databaseConfiguration.getConnection().prepareStatement(query).executeUpdate();
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

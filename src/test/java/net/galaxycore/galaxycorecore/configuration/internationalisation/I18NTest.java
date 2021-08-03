@@ -42,7 +42,9 @@ class I18NTest {
         GalaxyCoreCore mainMock = mock(GalaxyCoreCore.class);
         when(mainMock.getDatabaseConfiguration()).thenReturn(databaseConfiguration);
 
-        I18N.init(mainMock);
+        try {
+            I18N.init(mainMock);
+        }catch (Exception e) {e.printStackTrace();}
 
         I18N.setDefault("de_DE", "TestKey1", "Test Value1");
         I18N.setDefault("de_DE", "TestKey2", "Test Value2");

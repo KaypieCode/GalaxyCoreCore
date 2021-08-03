@@ -1,8 +1,5 @@
 name: GalaxyCoreCore
 version: ${project.version}
-main: net.galaxycore.galaxycorecore.GalaxyCoreCore
+main: net.galaxycore.galaxycorecore.Galaxycorecore
 api-version: 1.16
 authors: [ Bloekchengrafik ]
-
-depend:
-  - LuckPerms

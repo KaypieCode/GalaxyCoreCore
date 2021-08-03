@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.configuration.DatabaseConfiguration;
 import net.galaxycore.galaxycorecore.configuration.InternalConfiguration;
+import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
 import net.galaxycore.galaxycorecore.playerFormatting.FormatRoutine;
 import net.galaxycore.galaxycorecore.playerFormatting.TablistFormatter;
@@ -31,6 +32,15 @@ public class GalaxyCoreCore extends JavaPlugin {
         databaseConfiguration = new DatabaseConfiguration(internalConfiguration);
 
         coreNamespace = databaseConfiguration.getNamespace("core");
+
+        // I18N
+
+        I18N.init(this);
+
+        /* Why? Because other Plugins can load their defaults in the mean time */
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+            // Do stuff
+        });
 
         // DEFAULT CONFIG VALUES //
         coreNamespace.setDefault("chat.format", "%rank_displayname% §8| %rank_color%%player% §8» §7%chat_important%");

@@ -12,7 +12,8 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class I18N {
+public class I18N implements II18NPort{
+    @Getter
     private static I18N instance = null;
     private final DatabaseConfiguration databaseConfiguration;
 
@@ -73,7 +74,7 @@ public class I18N {
         }
     }
 
-    public static void setDefault(String lang, String key, String value) {
+    public static void setDefaultByLang(String lang, String key, String value) {
         MinecraftLocale locale = instance.languages.get(lang);
 
         instance.language_data.computeIfAbsent(locale, k -> new HashMap<>());
@@ -82,8 +83,16 @@ public class I18N {
         localizedBundle.put(key, value);
     }
 
-    public static String get(String lang, String key) {
+    public static String getByLang(String lang, String key) {
         return instance.language_data.get(instance.languages.get(lang)).get(key);
+    }
+
+    public String get(String lang, String key){
+        return I18N.getByLang(lang, key);
+    }
+
+    public void setDefault(String lang, String key, String value) {
+        I18N.setDefaultByLang(lang, key, value);
     }
 
     public static void retrieve() {

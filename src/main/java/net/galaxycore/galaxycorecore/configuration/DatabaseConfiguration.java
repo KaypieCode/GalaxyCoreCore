@@ -1,6 +1,7 @@
 package net.galaxycore.galaxycorecore.configuration;
 
 import lombok.Getter;
+import net.galaxycore.galaxycorecore.utils.SqlUtils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,7 +24,7 @@ public class DatabaseConfiguration {
                 connection = DriverManager.getConnection(
                         "jdbc:mysql://" + internalConfiguration.getMysql_host() + ":"
                                 + internalConfiguration.getMysql_port() + "/"
-                                + internalConfiguration.getMysql_database(),
+                                + internalConfiguration.getMysql_database() + "?autoReconnect=true",
                         internalConfiguration.getMysql_user(),
                         internalConfiguration.getMysql_password());
             }
@@ -31,10 +32,12 @@ public class DatabaseConfiguration {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        SqlUtils.runScript(this, "core", "create");
     }
 
     public ConfigNamespace getNamespace(String name){
-        return new ConfigNamespace(name, this);
+        return new ConfigNamespace("config_" + name, this);
     }
 
     public void disable(){

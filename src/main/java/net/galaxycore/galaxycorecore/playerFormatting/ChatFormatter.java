@@ -3,16 +3,19 @@ package net.galaxycore.galaxycorecore.playerFormatting;
 import lombok.Getter;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
+import net.galaxycore.galaxycorecore.configuration.internationalisation.II18NPort;
 import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
+import net.galaxycore.galaxycorecore.playerFormatting.events.FormattedChatMessageEvent;
 import net.galaxycore.galaxycorecore.utils.StringUtils;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import java.lang.reflect.InvocationTargetException;
 
 @Getter
 public class ChatFormatter implements Listener {
@@ -25,9 +28,26 @@ public class ChatFormatter implements Listener {
     }
 
     @SuppressWarnings("deprecation") // Paper wants its Components, but it wouldn't be performant to use those here
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onChatMessage(AsyncPlayerChatEvent event) {
         handleChatMessage(event, new LuckPermsApiWrapper(event.getPlayer()));
+
+        FormattedChatMessageEvent chatMessageEvent = new FormattedChatMessageEvent(event.getPlayer(), event.getMessage(), event.getFormat());
+
+        event.setCancelled(true);
+
+        Bukkit.getServer().getPluginManager().callEvent(chatMessageEvent);
+
+        if (chatMessageEvent.isCancelled())
+            return;
+
+        galaxycorecore.getChatBuffer().addMessage(event.getPlayer(), event.getFormat());
+
+        TextComponent chatTools = new TextComponent("§8 [§7☰§8]");
+
+        chatTools.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(II18NPort.get("de_DE", "core.chat.tools.open"))));
+
+        Bukkit.broadcast(new TextComponent(new TextComponent(event.getFormat()), chatTools));
     }
 
     @SuppressWarnings("deprecation") // Paper wants its Components, but it wouldn't be performant to use those here

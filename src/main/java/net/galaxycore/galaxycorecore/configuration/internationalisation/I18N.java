@@ -4,11 +4,13 @@ import lombok.Getter;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.DatabaseConfiguration;
 import net.galaxycore.galaxycorecore.utils.FileUtils;
+import net.galaxycore.galaxycorecore.utils.SqlUtils;
 import org.apache.ibatis.annotations.Lang;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,6 +20,7 @@ public class I18N implements II18NPort{
     private final DatabaseConfiguration databaseConfiguration;
 
     private final HashMap<String, I18N.MinecraftLocale> languages = new HashMap<>();
+    private final HashMap<UUID, I18N.MinecraftLocale> playerLocales = new HashMap<>();
     private HashMap<I18N.MinecraftLocale, HashMap<String, String>> language_data = new HashMap<>();
 
     private I18N(GalaxyCoreCore core) {
@@ -25,14 +28,7 @@ public class I18N implements II18NPort{
         Logger logger = Logger.getLogger(this.getClass().getName());
 
 
-        try {
-            for (String query : FileUtils.readSqlScript("i18n", "initialize", databaseConfiguration.getInternalConfiguration().getConnection().equals("sqlite") ? "sqlite" : "mysql").split("\n")) {
-                databaseConfiguration.getConnection().prepareStatement(query).executeUpdate();
-            }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        SqlUtils.runScript(databaseConfiguration, "i18n", "initialize");
 
         try {
             if (!databaseConfiguration.getConnection().prepareStatement("SELECT id FROM I18N_languages;").executeQuery().next()){

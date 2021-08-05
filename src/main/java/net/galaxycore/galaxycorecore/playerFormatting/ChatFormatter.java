@@ -3,11 +3,13 @@ package net.galaxycore.galaxycorecore.playerFormatting;
 import lombok.Getter;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
+import net.galaxycore.galaxycorecore.configuration.internationalisation.II18NPort;
 import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
 import net.galaxycore.galaxycorecore.playerFormatting.events.FormattedChatMessageEvent;
 import net.galaxycore.galaxycorecore.utils.StringUtils;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -43,7 +45,7 @@ public class ChatFormatter implements Listener {
 
         TextComponent chatTools = new TextComponent("§8 [§7☰§8]");
 
-        chatTools.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT));
+        chatTools.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(II18NPort.get("de_DE", "core.chat.tools.open"))));
 
         Bukkit.broadcast(new TextComponent(new TextComponent(event.getFormat()), chatTools));
     }

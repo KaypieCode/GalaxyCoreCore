@@ -49,23 +49,23 @@ class I18NTest {
             I18N.init(mainMock);
         }catch (Exception e) {e.printStackTrace();}
 
-        I18N.setDefault("de_DE", "TestKey1", "Test Value1");
-        I18N.setDefault("de_DE", "TestKey2", "Test Value2");
-        I18N.setDefault("de_DE", "TestKey3", "Test Value3");
-        I18N.setDefault("de_DE", "TestKey4", "Test Value4");
-        I18N.setDefault("de_DE", "TestKey5", "Test Value5");
-        I18N.setDefault("de_DE", "TestKey6", "Test Value6");
+        I18N.setDefaultByLang("de_DE", "TestKey1", "Test Value1");
+        I18N.setDefaultByLang("de_DE", "TestKey2", "Test Value2");
+        I18N.setDefaultByLang("de_DE", "TestKey3", "Test Value3");
+        I18N.setDefaultByLang("de_DE", "TestKey4", "Test Value4");
+        I18N.setDefaultByLang("de_DE", "TestKey5", "Test Value5");
+        I18N.setDefaultByLang("de_DE", "TestKey6", "Test Value6");
 
-        I18N.setDefault("fr_FR", "TestKey1", "tést vâlue1");
-        I18N.setDefault("fr_FR", "TestKey2", "tést vâlue2");
-        I18N.setDefault("fr_FR", "TestKey3", "tést vâlue3");
-        I18N.setDefault("fr_FR", "TestKey4", "tést vâlue4");
-        I18N.setDefault("fr_FR", "TestKey5", "tést vâlue5");
-        I18N.setDefault("fr_FR", "TestKey6", "tést vâlue6");
+        I18N.setDefaultByLang("fr_FR", "TestKey1", "tést vâlue1");
+        I18N.setDefaultByLang("fr_FR", "TestKey2", "tést vâlue2");
+        I18N.setDefaultByLang("fr_FR", "TestKey3", "tést vâlue3");
+        I18N.setDefaultByLang("fr_FR", "TestKey4", "tést vâlue4");
+        I18N.setDefaultByLang("fr_FR", "TestKey5", "tést vâlue5");
+        I18N.setDefaultByLang("fr_FR", "TestKey6", "tést vâlue6");
 
-        I18N.retrieve();
+        I18N.load();
 
-        assertEquals(I18N.get("de_DE", "TestKey1"), "Test Value1");
-        assertEquals(I18N.get("fr_FR", "TestKey2"), "tést vâlue2");
+        assertEquals(I18N.getByLang("de_DE", "TestKey1"), "Test Value1");
+        assertEquals(I18N.getByLang("fr_FR", "TestKey2"), "tést vâlue2");
     }
 }

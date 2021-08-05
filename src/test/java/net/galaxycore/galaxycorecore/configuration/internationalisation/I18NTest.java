@@ -63,7 +63,7 @@ class I18NTest {
         I18N.setDefaultByLang("fr_FR", "TestKey5", "tést vâlue5");
         I18N.setDefaultByLang("fr_FR", "TestKey6", "tést vâlue6");
 
-        I18N.retrieve();
+        I18N.load();
 
         assertEquals(I18N.getByLang("de_DE", "TestKey1"), "Test Value1");
         assertEquals(I18N.getByLang("fr_FR", "TestKey2"), "tést vâlue2");

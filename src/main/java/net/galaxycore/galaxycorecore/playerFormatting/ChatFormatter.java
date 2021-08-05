@@ -3,6 +3,7 @@ package net.galaxycore.galaxycorecore.playerFormatting;
 import lombok.Getter;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
+import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.II18NPort;
 import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
 import net.galaxycore.galaxycorecore.playerFormatting.events.FormattedChatMessageEvent;
@@ -45,7 +46,7 @@ public class ChatFormatter implements Listener {
 
         TextComponent chatTools = new TextComponent("§8 [§7☰§8]");
 
-        chatTools.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(II18NPort.get("de_DE", "core.chat.tools.open"))));
+        chatTools.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(I18N.getInstanceRef().get().get("de_DE", "core.chat.tools.open"))));
 
         Bukkit.broadcast(new TextComponent(new TextComponent(event.getFormat()), chatTools));
     }

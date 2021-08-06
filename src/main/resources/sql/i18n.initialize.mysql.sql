@@ -1,2 +1,3 @@
 CREATE TABLE IF NOT EXISTS `I18N_languages` ( `id` INT NOT NULL AUTO_INCREMENT, `lang` VARCHAR NOT NULL, `head_data` TEXT NOT NULL, `english_name` VARCHAR NOT NULL, `local_name` VARCHAR NOT NULL, `date_fmt` VARCHAR NOT NULL, `time_fmt` VARCHAR NOT NULL, UNIQUE KEY `unique_lang` (`lang`) USING BTREE);
 CREATE TABLE IF NOT EXISTS `I18N_language_data` (`id` INT NOT NULL AUTO_INCREMENT, `language_id` INT NOT NULL DEFAULT '0', `key` VARCHAR NOT NULL, `value` LONGTEXT, UNIQUE KEY `unique_key` (`key`) USING BTREE);
+CREATE TABLE IF NOT EXISTS `I18N_player_data` (`id` INT, `language_id` INT NOT NULL DEFAULT '0', UNIQUE KEY `unique_key` (`id`) USING BTREE);

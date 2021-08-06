@@ -40,6 +40,7 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.init(this);
 
         /* Why? Because other Plugins can load their defaults in the mean time */
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, I18N::load);
 
         // DEFAULT CONFIG VALUES //
         coreNamespace.setDefault("chat.format", "%rank_displayname% §8| %rank_color%%player% §8» §7%chat_important%");

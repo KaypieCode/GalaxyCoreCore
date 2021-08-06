@@ -8,6 +8,9 @@ import net.galaxycore.galaxycorecore.configuration.internationalisation.II18NPor
 import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
 import net.galaxycore.galaxycorecore.playerFormatting.events.FormattedChatMessageEvent;
 import net.galaxycore.galaxycorecore.utils.StringUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEventSource;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
@@ -42,11 +45,12 @@ public class ChatFormatter implements Listener {
         if (chatMessageEvent.isCancelled())
             return;
 
-        galaxycorecore.getChatBuffer().addMessage(event.getPlayer(), event.getFormat());
+        int id = galaxycorecore.getChatBuffer().addMessage(event.getPlayer(), event.getFormat());
 
         TextComponent chatTools = new TextComponent("§8 [§7☰§8]");
 
         chatTools.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(I18N.getInstanceRef().get().get("de_DE", "core.chat.tools.open"))));
+        chatTools.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/chattools " + id));
 
         Bukkit.broadcast(new TextComponent(new TextComponent(event.getFormat()), chatTools));
     }

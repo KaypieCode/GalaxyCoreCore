@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 public class I18N implements II18NPort{
     @Getter
     private static final I18NProvider instanceRef = new I18NProvider();
+
     private final DatabaseConfiguration databaseConfiguration;
 
     private final HashMap<String, I18N.MinecraftLocale> languages = new HashMap<>();

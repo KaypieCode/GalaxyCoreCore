@@ -10,6 +10,7 @@ import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
 import net.galaxycore.galaxycorecore.playerFormatting.FormatRoutine;
 import net.galaxycore.galaxycorecore.playerFormatting.TablistFormatter;
+import net.galaxycore.galaxycorecore.tpswarn.TPSWarn;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -62,8 +63,12 @@ public class GalaxyCoreCore extends JavaPlugin {
         // CHATLOGS //
         chatLog = new ChatLog(this);
 
+        // TPS Warn //
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TPSWarn(), 0, 200);
+
         pluginManager.registerEvents(chatFormatter, this);
         pluginManager.registerEvents(tablistFormatter, this);
+        pluginManager.registerEvents(chatLog, this);
     }
 
     @Override

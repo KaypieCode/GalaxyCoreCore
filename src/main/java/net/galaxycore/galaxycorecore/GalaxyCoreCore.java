@@ -1,6 +1,7 @@
 package net.galaxycore.galaxycorecore;
 
 import lombok.Getter;
+import net.galaxycore.galaxycorecore.chatlog.ChatLog;
 import net.galaxycore.galaxycorecore.chattools.ChatBuffer;
 import net.galaxycore.galaxycorecore.configuration.ConfigNamespace;
 import net.galaxycore.galaxycorecore.configuration.DatabaseConfiguration;
@@ -25,6 +26,9 @@ public class GalaxyCoreCore extends JavaPlugin {
     private FormatRoutine formatRoutine;
     private ChatBuffer chatBuffer;
 
+    // CHATLOG //
+    private ChatLog chatLog;
+
     @Override
     public void onEnable() {
         PluginManager pluginManager = Bukkit.getPluginManager();
@@ -45,6 +49,7 @@ public class GalaxyCoreCore extends JavaPlugin {
         coreNamespace.setDefault("chat.format", "%rank_displayname% §8| %rank_color%%player% §8» §7%chat_important%");
         coreNamespace.setDefault("tablist.format", "%rank_prefix%%rank_color% %player%");
         coreNamespace.setDefault("chat.maxbufferlength", "100");
+        coreNamespace.setDefault("chatlog.webhook_url", "https://discord.gg");
 
         // ChatTools //
         chatBuffer = new ChatBuffer(this);
@@ -53,6 +58,9 @@ public class GalaxyCoreCore extends JavaPlugin {
         chatFormatter = new ChatFormatter(this);
         tablistFormatter = new TablistFormatter(this);
         formatRoutine = new FormatRoutine(getSLF4JLogger(), Bukkit.getServer(), tablistFormatter);
+
+        // CHATLOGS //
+        chatLog = new ChatLog(this);
 
         pluginManager.registerEvents(chatFormatter, this);
         pluginManager.registerEvents(tablistFormatter, this);

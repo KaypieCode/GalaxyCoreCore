@@ -1,6 +1,5 @@
 package net.galaxycore.galaxycorecore.playerFormatting;
 
-import com.mysql.cj.log.Log;
 import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
 import org.bukkit.Server;
 import org.slf4j.Logger;
@@ -20,7 +19,7 @@ public class FormatRoutine {
         routine.start();
     }
 
-    public void shutdown(){
+    public void shutdown() {
         routine.interrupt();
         logger.info("Shutting Down Format Routine...");
         try {
@@ -36,7 +35,7 @@ public class FormatRoutine {
         public void run() {
             boolean active = true;
 
-            while (active){
+            while (active) {
                 server.getOnlinePlayers().forEach(player -> {
                     try {
                         String expectedName = tablistFormatter.calculatePlayerListName(new LuckPermsApiWrapper(player));
@@ -48,7 +47,7 @@ public class FormatRoutine {
                             // Paper wants its Components, but it wouldn't be performant to use those here, FY Paper
                             //noinspection deprecation
                             player.setPlayerListName(expectedName);
-                    }catch (Exception ignored){
+                    } catch (Exception ignored) {
                         logger.warn("Failed to calculate or update the Player " + player.getName());
                     }
                 });

@@ -12,6 +12,7 @@ public class ChatMessage {
     private final int elevation;
 
     @Setter private boolean deleted;
+    @Setter private boolean chat_clearer;
 
     public ChatMessage(int id, OfflinePlayer player, String message, int elevation){
         this.id = id;

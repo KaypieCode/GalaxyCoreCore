@@ -51,13 +51,16 @@ public class GalaxyCoreCore extends JavaPlugin {
 
         // DEFAULT CONFIG VALUES //
         coreNamespace.setDefault("prefix", "§5Galaxy§6Core §l§8»§r§7 ");
+        coreNamespace.setDefault("nopermissions", "§cFür diese Aktion hast du keine Rechte!");
         coreNamespace.setDefault("chat.format", "%rank_displayname% §8| %rank_color%%player% §8» §7%chat_important%");
-        coreNamespace.setDefault("tablist.format", "%rank_prefix%%rank_color% %player%");
         coreNamespace.setDefault("chat.maxbufferlength", "100");
+        coreNamespace.setDefault("tablist.format", "%rank_prefix%%rank_color% %player%");
 
-        // LOAD PREFIX //
+        // LOAD PREFIX AND MESSAGES //
 
         PrefixProvider.setPrefix(coreNamespace.get("prefix"));
+
+        MessageProvider.setNoPermissionMessage(coreNamespace.get("nopermissions"));
 
         // CHAT TOOLS //
         chatBuffer = new ChatBuffer(this);
@@ -73,6 +76,7 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "core.chat.tools.name", "§6ChatTools§8 «");
         I18N.setDefaultByLang("de_DE", "core.chat.tools.copy", "§ein die Zwischenablage kopieren");
         I18N.setDefaultByLang("de_DE", "core.chat.tools.copy.website", "Kopieren");
+        I18N.setDefaultByLang("de_DE", "core.chat.clear.placeholder", "§c<Chat gecleared>");
 
         // FORMATTING //
         chatFormatter = new ChatFormatter(this);

@@ -1,6 +1,7 @@
 package net.galaxycore.galaxycorecore.chattools;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.kyori.adventure.text.Component;
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class ChatBuffer {
     private final GalaxyCoreCore galaxyCoreCore;
     private final CircularFifoQueue<ChatMessage> ringBuffer;
-    private int currentId;
+    @Setter private int currentId;
 
     public ChatBuffer(GalaxyCoreCore galaxyCoreCore) {
         this.galaxyCoreCore = galaxyCoreCore;
@@ -59,6 +60,12 @@ public class ChatBuffer {
         clearChatNoPerms(chatManager);
         getRingBuffer().forEach(chatMessage -> {
             Component component = Component.text("§8 [§7☰§8]").hoverEvent(HoverEvent.showText(Component.text(I18N.getInstanceRef().get().get("de_DE", "core.chat.tools.open")))).clickEvent(ClickEvent.runCommand("/chattools " + chatMessage.getId()));
+
+            if (chatMessage.isChat_clearer()){
+                chatManager.sendToNoPermission(Component.text(chatMessage.getMessage()), "core.command.chat.clear.bypass");
+                chatManager.sendToPermission(Component.text(I18N.getInstanceRef().get().get("de_DE", I18N.getInstanceRef().get().get("de_DE", "core.chat.clear.placeholder"))), "core.command.chat.clear");
+                return;
+            }
 
             if (!chatMessage.isDeleted())
                 chatManager.sendToAll(Component.text(chatMessage.getMessage()).append(component));

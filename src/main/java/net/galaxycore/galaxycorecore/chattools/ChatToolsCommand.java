@@ -39,7 +39,7 @@ public class ChatToolsCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length == 2 && args[1].equals("tdel")) {
+        if (args.length == 2 && args[1].equals("tdel") && player.hasPermission("core.chat.tools.tool.delete") && chatMessage.getElevation() <= ChatBuffer.getElevation(player)) {
             chatMessage.setDeleted(!chatMessage.isDeleted());
             galaxyCoreCore.getChatBuffer().resendChat(new ChatManager());
 
@@ -52,7 +52,11 @@ public class ChatToolsCommand implements CommandExecutor {
         PlayerUtils.sendMessage(player, "");
         PlayerUtils.sendMessage(player, I18N.getByLang("de_DE", "core.chat.tools.themessage") + chatMessage.getMessage());
         PlayerUtils.sendMessage(player, "");
-        PlayerUtils.sendMessage(player, Component.text(I18N.getByLang("de_DE", "core.chat.tools." + (chatMessage.isDeleted() ? "undelete" : "delete"))).clickEvent(ClickEvent.runCommand("/chattools " + chatMessage.getId() + " tdel")));
+
+        if (player.hasPermission("core.chat.tools.tool.delete") && chatMessage.getElevation() <= ChatBuffer.getElevation(player)) {
+            PlayerUtils.sendMessage(player, Component.text(I18N.getByLang("de_DE", "core.chat.tools." + (chatMessage.isDeleted() ? "undelete" : "delete"))).clickEvent(ClickEvent.runCommand("/chattools " + chatMessage.getId() + " tdel")));
+        }
+
         PlayerUtils.sendMessage(player, Component.text(I18N.getByLang("de_DE", "core.chat.tools.copy")).clickEvent(ClickEvent.openUrl(UrlUtils.getCpUrl(chatMessage.getMessage(), I18N.getByLang("de_DE", "core.chat.tools.copy.website")))));
         PlayerUtils.sendMessage(player, "===================================");
 

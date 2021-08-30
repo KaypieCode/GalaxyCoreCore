@@ -39,7 +39,7 @@ public class ChatToolsCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length == 2 && args[1].equals("tdel")) {
+        if (args.length == 2 && args[1].equals("tdel") && player.hasPermission("core.chat.tools.tool.delete") && chatMessage.getElevation() <= ChatBuffer.getElevation(player)) {
             chatMessage.setDeleted(!chatMessage.isDeleted());
             galaxyCoreCore.getChatBuffer().resendChat(new ChatManager());
 

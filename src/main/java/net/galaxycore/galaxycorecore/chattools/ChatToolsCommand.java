@@ -25,8 +25,6 @@ public class ChatToolsCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
 
-        System.out.println(galaxyCoreCore.getChatBuffer().getRingBuffer());
-
         if (args.length < 1) {
             PlayerUtils.sendMessage(player, I18N.getByLang("de_DE", "core.chat.tools.commandfail"));
             return true;

@@ -36,6 +36,9 @@ public class GalaxyCoreCore extends JavaPlugin {
     // CHATLOG //
     private ChatLog chatLog;
 
+    // TPS WARN //
+    private TPSWarn tpsWarn;
+
     @Override
     public void onEnable() {
         PluginManager pluginManager = Bukkit.getPluginManager();
@@ -98,9 +101,12 @@ public class GalaxyCoreCore extends JavaPlugin {
 
         // CHATLOGS //
         chatLog = new ChatLog(this);
+        coreNamespace.setDefault("chatlog.webhook_url", "https://discord.com/api/webhooks/882263428591419442/eTztbTcJ5TvZMJJhLC5Q__dTqwLHe91ryfL5TGdmOhdNRj_j47N4GMeMwIguM15syQ1M");
 
-        // TPS Warn //
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TPSWarn(), 0, 200);
+        // TPS WARN //
+        tpsWarn = new TPSWarn(this);
+        coreNamespace.setDefault("tpswarn.webhook_url", "https://discord.com/api/webhooks/882263428591419442/eTztbTcJ5TvZMJJhLC5Q__dTqwLHe91ryfL5TGdmOhdNRj_j47N4GMeMwIguM15syQ1M");
+        coreNamespace.setDefault("tpswarn.minimal_allowed_tps", "15");
 
         pluginManager.registerEvents(chatFormatter, this);
         pluginManager.registerEvents(tablistFormatter, this);
@@ -110,6 +116,8 @@ public class GalaxyCoreCore extends JavaPlugin {
     @Override
     public void onDisable() {
         formatRoutine.shutdown();
+
+        tpsWarn.shutdown();
 
         databaseConfiguration.disable();
     }

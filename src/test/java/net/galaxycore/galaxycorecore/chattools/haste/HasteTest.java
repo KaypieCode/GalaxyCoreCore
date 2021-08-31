@@ -15,6 +15,7 @@ class HasteTest {
             assertEquals(39, link.length());
         } catch (IOException e) {
             e.printStackTrace();
+            fail();
         }
     }
 }

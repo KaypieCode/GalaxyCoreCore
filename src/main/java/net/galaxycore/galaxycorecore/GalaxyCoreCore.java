@@ -2,7 +2,9 @@ package net.galaxycore.galaxycorecore;
 
 import lombok.Getter;
 import net.galaxycore.galaxycorecore.chattools.ChatBuffer;
+import net.galaxycore.galaxycorecore.chattools.ChatClearCommand;
 import net.galaxycore.galaxycorecore.chattools.ChatToolsCommand;
+import net.galaxycore.galaxycorecore.chattools.ChattoolsPlayerRegisterer;
 import net.galaxycore.galaxycorecore.configuration.*;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
@@ -65,6 +67,11 @@ public class GalaxyCoreCore extends JavaPlugin {
         // CHAT TOOLS //
         chatBuffer = new ChatBuffer(this);
         Objects.requireNonNull(getCommand("chattools")).setExecutor(new ChatToolsCommand(this));
+        Objects.requireNonNull(getCommand("cc"       )).setExecutor(new ChatClearCommand(this));
+
+        Bukkit.getPluginManager().registerEvents(new ChattoolsPlayerRegisterer(this), this);
+
+        // DEFAULT I18N VALUES //
 
         I18N.setDefaultByLang("de_DE", "core.chat.tools.open", "§eÖffne die Chattools");
         I18N.setDefaultByLang("de_DE", "core.chat.tools.commandfail", "§cBitte verwende §e/chattools [ID]");

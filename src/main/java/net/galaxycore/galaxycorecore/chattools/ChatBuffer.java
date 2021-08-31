@@ -62,15 +62,15 @@ public class ChatBuffer {
             Component component = Component.text("§8 [§7☰§8]").hoverEvent(HoverEvent.showText(Component.text(I18N.getInstanceRef().get().get("de_DE", "core.chat.tools.open")))).clickEvent(ClickEvent.runCommand("/chattools " + chatMessage.getId()));
 
             if (chatMessage.isChat_clearer()){
-                chatManager.sendToNoPermission(Component.text(chatMessage.getMessage()), "core.command.chat.clear.bypass");
-                chatManager.sendToPermission(Component.text(I18N.getInstanceRef().get().get("de_DE", I18N.getInstanceRef().get().get("de_DE", "core.chat.clear.placeholder"))), "core.command.chat.clear");
+                chatManager.sendToNoPermissionAfterId(Component.text(chatMessage.getMessage()), "core.command.chat.clear.bypass", chatMessage.getId());
+                chatManager.sendToPermissionAfterId(Component.text(I18N.getInstanceRef().get().get("de_DE", "core.chat.clear.placeholder")), "core.command.chat.clear", chatMessage.getId());
                 return;
             }
 
             if (!chatMessage.isDeleted())
-                chatManager.sendToAll(Component.text(chatMessage.getMessage()).append(component));
+                chatManager.sendToAllAfterId(Component.text(chatMessage.getMessage()).append(component), chatMessage.getId());
             else
-                chatManager.sendToPermission(Component.text("§c[DELETED]§7 " + chatMessage.getMessage()).append(component), "core.chat.resend.bypass.deleted");
+                chatManager.sendToPermissionAfterId(Component.text("§c[DELETED]§7 " + chatMessage.getMessage()).append(component), "core.chat.resend.bypass.deleted", chatMessage.getId());
         });
     }
 }

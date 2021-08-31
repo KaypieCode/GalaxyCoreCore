@@ -11,6 +11,7 @@ import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
 import net.galaxycore.galaxycorecore.playerFormatting.FormatRoutine;
 import net.galaxycore.galaxycorecore.playerFormatting.TablistFormatter;
+import net.galaxycore.galaxycorecore.tpswarn.TPSWarn;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,12 +36,12 @@ public class GalaxyCoreCore extends JavaPlugin {
     // CHATLOG //
     private ChatLog chatLog;
 
+    // TPS WARN //
+    private TPSWarn tpsWarn;
+
     @Override
     public void onEnable() {
         PluginManager pluginManager = Bukkit.getPluginManager();
-
-        // SET OWN INSTANCE //
-        CoreProvider.setCore(this);
 
         // CONFIGURATION //
         InternalConfiguration internalConfiguration = new InternalConfiguration(getDataFolder());
@@ -97,14 +98,23 @@ public class GalaxyCoreCore extends JavaPlugin {
 
         // CHATLOGS //
         chatLog = new ChatLog(this);
+        coreNamespace.setDefault("chatlog.webhook_url", "https://discord.com/api/webhooks/882263428591419442/eTztbTcJ5TvZMJJhLC5Q__dTqwLHe91ryfL5TGdmOhdNRj_j47N4GMeMwIguM15syQ1M");
+
+        // TPS WARN //
+        tpsWarn = new TPSWarn(this);
+        coreNamespace.setDefault("tpswarn.webhook_url", "https://discord.com/api/webhooks/882263428591419442/eTztbTcJ5TvZMJJhLC5Q__dTqwLHe91ryfL5TGdmOhdNRj_j47N4GMeMwIguM15syQ1M");
+        coreNamespace.setDefault("tpswarn.minimal_allowed_tps", "15");
 
         pluginManager.registerEvents(chatFormatter, this);
         pluginManager.registerEvents(tablistFormatter, this);
+        pluginManager.registerEvents(chatLog, this);
     }
 
     @Override
     public void onDisable() {
         formatRoutine.shutdown();
+
+        tpsWarn.shutdown();
 
         databaseConfiguration.disable();
     }

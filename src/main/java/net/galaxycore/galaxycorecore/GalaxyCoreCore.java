@@ -43,9 +43,6 @@ public class GalaxyCoreCore extends JavaPlugin {
     public void onEnable() {
         PluginManager pluginManager = Bukkit.getPluginManager();
 
-        // SET OWN INSTANCE //
-        CoreProvider.setCore(this);
-
         // CONFIGURATION //
         InternalConfiguration internalConfiguration = new InternalConfiguration(getDataFolder());
         databaseConfiguration = new DatabaseConfiguration(internalConfiguration);

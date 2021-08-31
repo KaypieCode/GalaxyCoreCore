@@ -61,7 +61,7 @@ public class GalaxyCoreCore extends JavaPlugin {
         coreNamespace.setDefault("nopermissions", "§cFür diese Aktion hast du keine Rechte!");
         coreNamespace.setDefault("chat.format", "%rank_displayname% §8| %rank_color%%player% §8» §7%chat_important%");
         coreNamespace.setDefault("chat.maxbufferlength", "100");
-      
+        coreNamespace.setDefault("chatlog.webhook_url", "https://discord.gg");
         coreNamespace.setDefault("tablist.format", "%rank_prefix%%rank_color% %player%");
 
         // LOAD PREFIX AND MESSAGES //

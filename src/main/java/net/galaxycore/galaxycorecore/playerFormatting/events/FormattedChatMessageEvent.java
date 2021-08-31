@@ -25,6 +25,8 @@ public class FormattedChatMessageEvent extends Event {
     private boolean cancelled = false;
 
     public FormattedChatMessageEvent(Player player, String message, String formatted) {
+        super(true);
+
         this.player = player;
         this.message = message;
         this.formatted = formatted;

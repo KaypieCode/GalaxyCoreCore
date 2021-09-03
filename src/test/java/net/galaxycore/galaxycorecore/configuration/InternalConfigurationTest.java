@@ -29,7 +29,7 @@ public class InternalConfigurationTest {
 
         assertTrue(dataFolder.exists());
         assertEquals(testConfiguration.getConnection(), "h2");
-        assertEquals(testConfiguration.getSqlite_name(), "TestDatabase.sqlite");
+        assertEquals(testConfiguration.getH2_name(), "default.h2");
         assertEquals(testConfiguration.getMysql_host(), "host");
         assertEquals(testConfiguration.getMysql_port(), 3306);
         assertEquals(testConfiguration.getMysql_user(), "user");
@@ -65,8 +65,8 @@ public class InternalConfigurationTest {
             myWriter.write("  user: myuser\n");
             myWriter.write("  password: mypassword\n");
             myWriter.write("  database: mydatabase\n");
-            myWriter.write("sqlite:\n");
-            myWriter.write("  name: myconfig.sqlite\n");
+            myWriter.write("h2:\n");
+            myWriter.write("  name: myconfig.h2\n");
             myWriter.write("\n");
             myWriter.close();
         } catch (IOException e) {
@@ -77,7 +77,7 @@ public class InternalConfigurationTest {
 
         assertTrue(dataFolder.exists());
         assertEquals(testConfiguration.getConnection(), "mysql");
-        assertEquals(testConfiguration.getSqlite_name(), "myconfig.sqlite");
+        assertEquals(testConfiguration.getH2_name(), "myconfig.h2");
         assertEquals(testConfiguration.getMysql_host(), "myhost");
         assertEquals(testConfiguration.getMysql_port(), 3307);
         assertEquals(testConfiguration.getMysql_user(), "myuser");

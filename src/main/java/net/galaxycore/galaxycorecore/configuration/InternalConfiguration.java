@@ -16,9 +16,13 @@ public class InternalConfiguration {
     private final String mysql_user;
     private final String mysql_password;
     private final String mysql_database;
-    private final String h2_name;
+    private final String sqlite_name;
+
+    private final File dataFolder;
 
     public InternalConfiguration(File settingsDataFolder) {
+        this.dataFolder = settingsDataFolder;
+
 
         if (!settingsDataFolder.exists())
             //noinspection ResultOfMethodCallIgnored
@@ -41,7 +45,7 @@ public class InternalConfiguration {
             writeConfig.set("mysql.user", "user");
             writeConfig.set("mysql.password", "password");
             writeConfig.set("mysql.database", "database");
-            writeConfig.set("h2.name", "default.h2");
+            writeConfig.set("sqlite.name", "TestDatabase.sqlite");
 
             try {
                 writeConfig.save(configurationFile);
@@ -58,6 +62,6 @@ public class InternalConfiguration {
         mysql_user = config.getString("mysql.user");
         mysql_password = config.getString("mysql.password");
         mysql_database = config.getString("mysql.database");
-        h2_name = config.getString("h2.name");
+        sqlite_name = config.getString("sqlite.name");
     }
 }

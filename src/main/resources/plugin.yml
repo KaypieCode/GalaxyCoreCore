@@ -1,5 +1,17 @@
 name: GalaxyCoreCore
 version: ${project.version}
-main: net.galaxycore.galaxycorecore.Galaxycorecore
+main: net.galaxycore.galaxycorecore.GalaxyCoreCore
 api-version: 1.16
 authors: [ Bloekchengrafik, Flo-Mit-H ]
+
+depend:
+  - LuckPerms
+
+commands:
+  chattools:
+    description: Open the Chattools on a specific Message
+    usage: /chattools [messageid]
+
+  cc:
+    description: Clears the Chat
+    usage: /cc

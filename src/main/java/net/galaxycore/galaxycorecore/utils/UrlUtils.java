@@ -1,5 +1,7 @@
 package net.galaxycore.galaxycorecore.utils;
 
+import net.galaxycore.galaxycorecore.chattools.ChatToolsCommand;
+
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -9,28 +11,7 @@ public class UrlUtils {
         URLBuilder urlBuilder = new URLBuilder("ctc.galaxycore.net");
         urlBuilder.setConnectionType("https");
 
-        msg = msg.replace("&l", ""); msg = msg.replace("§l", "");
-        msg = msg.replace("&n", ""); msg = msg.replace("§n", "");
-        msg = msg.replace("&o", ""); msg = msg.replace("§o", "");
-        msg = msg.replace("&k", ""); msg = msg.replace("§k", "");
-        msg = msg.replace("&m", ""); msg = msg.replace("§m", "");
-        msg = msg.replace("&0", ""); msg = msg.replace("§0", "");
-        msg = msg.replace("&1", ""); msg = msg.replace("§1", "");
-        msg = msg.replace("&2", ""); msg = msg.replace("§2", "");
-        msg = msg.replace("&3", ""); msg = msg.replace("§3", "");
-        msg = msg.replace("&4", ""); msg = msg.replace("§4", "");
-        msg = msg.replace("&5", ""); msg = msg.replace("§5", "");
-        msg = msg.replace("&6", ""); msg = msg.replace("§6", "");
-        msg = msg.replace("&7", ""); msg = msg.replace("§7", "");
-        msg = msg.replace("&8", ""); msg = msg.replace("§8", "");
-        msg = msg.replace("&9", ""); msg = msg.replace("§9", "");
-        msg = msg.replace("&a", ""); msg = msg.replace("§a", "");
-        msg = msg.replace("&b", ""); msg = msg.replace("§b", "");
-        msg = msg.replace("&c", ""); msg = msg.replace("§c", "");
-        msg = msg.replace("&d", ""); msg = msg.replace("§d", "");
-        msg = msg.replace("&e", ""); msg = msg.replace("§e", "");
-        msg = msg.replace("&f", ""); msg = msg.replace("§f", "");
-        msg = msg.replace("&r", ""); msg = msg.replace("§r", "");
+        msg = ChatToolsCommand.replaceColorCodes(msg);
         msg = msg.replace("»", ">");
 
         urlBuilder.addParameter("cp", msg);

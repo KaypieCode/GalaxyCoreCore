@@ -61,7 +61,7 @@ public class GalaxyCoreCore extends JavaPlugin {
         coreNamespace.setDefault("nopermissions", "§cFür diese Aktion hast du keine Rechte!");
         coreNamespace.setDefault("chat.format", "%rank_displayname% §8| %rank_color%%player% §8» §7%chat_important%");
         coreNamespace.setDefault("chat.maxbufferlength", "100");
-      
+        coreNamespace.setDefault("chatlog.webhook_url", "https://discord.gg");
         coreNamespace.setDefault("tablist.format", "%rank_prefix%%rank_color% %player%");
 
         // LOAD PREFIX AND MESSAGES //
@@ -89,7 +89,10 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "core.chat.tools.name", "§6ChatTools§8 «");
         I18N.setDefaultByLang("de_DE", "core.chat.tools.copy", "§ein die Zwischenablage kopieren");
         I18N.setDefaultByLang("de_DE", "core.chat.tools.copy.website", "Kopieren");
+        I18N.setDefaultByLang("de_DE", "core.chat.tools.haste", "§eSpeicher alle Nachrichten ab dieser");
+        I18N.setDefaultByLang("de_DE", "core.chat.tools.haste.confirm", "§aFertig! Hier ist dein Link: ");
         I18N.setDefaultByLang("de_DE", "core.chat.clear.placeholder", "§c<Chat gecleared>");
+        I18N.setDefaultByLang("de_DE", "core.error", "§4Es ist ein Fehler aufgetreten!");
 
         // FORMATTING //
         chatFormatter = new ChatFormatter(this);

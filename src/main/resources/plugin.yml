@@ -2,7 +2,7 @@ name: GalaxyCoreCore
 version: ${project.version}
 main: net.galaxycore.galaxycorecore.GalaxyCoreCore
 api-version: 1.16
-authors: [ Bloekchengrafik ]
+authors: [ Bloekchengrafik, Flo-Mit-H ]
 
 depend:
   - LuckPerms

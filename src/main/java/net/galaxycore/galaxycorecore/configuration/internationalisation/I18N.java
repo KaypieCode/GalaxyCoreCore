@@ -5,13 +5,11 @@ import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.DatabaseConfiguration;
 import net.galaxycore.galaxycorecore.utils.FileUtils;
 import net.galaxycore.galaxycorecore.utils.SqlUtils;
-import org.apache.ibatis.annotations.Lang;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class I18N implements II18NPort{

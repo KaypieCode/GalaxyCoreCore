@@ -100,7 +100,6 @@ public class GalaxyCoreCore extends JavaPlugin {
 
         // FORMATTING //
         chatFormatter = new ChatFormatter(this);
-        tablistFormatter = new TablistFormatter(this);
         formatRoutine = new FormatRoutine(getSLF4JLogger(), Bukkit.getServer(), tablistFormatter);
 
         // CHATLOGS //

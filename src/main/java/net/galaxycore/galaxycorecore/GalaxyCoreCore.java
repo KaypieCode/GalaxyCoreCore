@@ -28,8 +28,6 @@ public class GalaxyCoreCore extends JavaPlugin {
 
     // FORMATTING //
     private ChatFormatter chatFormatter;
-    private TablistFormatter tablistFormatter;
-    private FormatRoutine formatRoutine;
 
     // CHAT TOOLS //
     private ChatBuffer chatBuffer;
@@ -100,7 +98,6 @@ public class GalaxyCoreCore extends JavaPlugin {
 
         // FORMATTING //
         chatFormatter = new ChatFormatter(this);
-        formatRoutine = new FormatRoutine(getSLF4JLogger(), Bukkit.getServer(), tablistFormatter);
 
         // CHATLOGS //
         chatLog = new ChatLog(this);
@@ -115,14 +112,11 @@ public class GalaxyCoreCore extends JavaPlugin {
         sortTablist = new SortTablist(this);
 
         pluginManager.registerEvents(chatFormatter, this);
-        pluginManager.registerEvents(tablistFormatter, this);
         pluginManager.registerEvents(chatLog, this);
     }
 
     @Override
     public void onDisable() {
-        formatRoutine.shutdown();
-
         tpsWarn.shutdown();
 
         sortTablist.shutdown();

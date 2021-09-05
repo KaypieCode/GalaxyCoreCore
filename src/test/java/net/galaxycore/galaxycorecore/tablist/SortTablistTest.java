@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class SortTablist {
+public class SortTablistTest {
 
     @Test
     public void calculatePlayerName() {
@@ -18,7 +18,7 @@ public class SortTablist {
 
         GalaxyCoreCore mockCore = mock(GalaxyCoreCore.class);
 
-        net.galaxycore.galaxycorecore.tablist.SortTablist tablist = new net.galaxycore.galaxycorecore.tablist.SortTablist(mockCore);
+        SortTablist tablist = new SortTablist(mockCore);
 
         String expected = "§9Developer §7| §9deppelopfer";
         String actual = tablist.calculatePlayerName(mockPlayer);

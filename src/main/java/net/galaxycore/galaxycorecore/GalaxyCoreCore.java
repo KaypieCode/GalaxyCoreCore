@@ -11,6 +11,7 @@ import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
 import net.galaxycore.galaxycorecore.playerFormatting.FormatRoutine;
 import net.galaxycore.galaxycorecore.playerFormatting.TablistFormatter;
+import net.galaxycore.galaxycorecore.tablist.SortTablist;
 import net.galaxycore.galaxycorecore.tpswarn.TPSWarn;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -38,6 +39,9 @@ public class GalaxyCoreCore extends JavaPlugin {
 
     // TPS WARN //
     private TPSWarn tpsWarn;
+
+    // TABLIST SORT AND NAMETAGS //
+    private SortTablist sortTablist;
 
     @Override
     public void onEnable() {
@@ -108,6 +112,9 @@ public class GalaxyCoreCore extends JavaPlugin {
         coreNamespace.setDefault("tpswarn.webhook_url", "https://discord.com/api/webhooks/882263428591419442/eTztbTcJ5TvZMJJhLC5Q__dTqwLHe91ryfL5TGdmOhdNRj_j47N4GMeMwIguM15syQ1M");
         coreNamespace.setDefault("tpswarn.minimal_allowed_tps", "15");
 
+        // TABLIST SORT AND NAMETAGS //
+        sortTablist = new SortTablist(this);
+
         pluginManager.registerEvents(chatFormatter, this);
         pluginManager.registerEvents(tablistFormatter, this);
         pluginManager.registerEvents(chatLog, this);
@@ -118,6 +125,8 @@ public class GalaxyCoreCore extends JavaPlugin {
         formatRoutine.shutdown();
 
         tpsWarn.shutdown();
+
+        sortTablist.shutdown();
 
         databaseConfiguration.disable();
     }

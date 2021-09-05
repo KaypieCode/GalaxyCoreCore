@@ -59,6 +59,14 @@
         </resources>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>galaxycore</id>
+            <name>GalaxyCore repository</name>
+            <url>https://nrm.galaxycore.net/repository/galaxycore/</url>
+        </repository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>papermc-repo</id>

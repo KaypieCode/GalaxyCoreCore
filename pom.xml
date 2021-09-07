@@ -6,7 +6,7 @@
 
     <groupId>net.galaxycore</groupId>
     <artifactId>galaxycorecore</artifactId>
-    <version>1.0</version>
+    <version>1.0R1</version>
     <packaging>jar</packaging>
 
     <name>GalaxyCoreCore</name>

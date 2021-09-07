@@ -37,7 +37,7 @@ public class SortTablist extends Thread {
                 player.playerListName(Component.text(playerName));
 
             for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                Team playerTeam = getTeam(onlinePlayer.getScoreboard(), height + player.getName().substring(14),
+                Team playerTeam = getTeam(onlinePlayer.getScoreboard(), height + player.getName().substring(0, 14),
                         playerPerms.getPermissionsPrefix(), "");
                 if(!playerTeam.hasEntry(player.getName()))
                     playerTeam.addEntry(player.getName());

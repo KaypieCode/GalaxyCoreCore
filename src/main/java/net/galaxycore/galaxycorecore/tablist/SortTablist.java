@@ -30,14 +30,19 @@ public class SortTablist extends Thread {
 
         Bukkit.getScheduler().runTaskAsynchronously(core, () -> {
 
-            String height = String.format("%05d", 9999 - playerPerms.getPermissionsWeight());
+            String height = String.format("%04d", 9999 - playerPerms.getPermissionsWeight());
             String playerName = calculatePlayerName(player);
 
             if(!Objects.equals(player.playerListName(), Component.text(playerName)))
                 player.playerListName(Component.text(playerName));
 
             for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                Team playerTeam = getTeam(onlinePlayer.getScoreboard(), height + player.getName().substring(0, 14),
+                String teamplayername = player.getName();
+
+                if(teamplayername.length() > 11)
+                    teamplayername = player.getName().substring(0, 11);
+
+                Team playerTeam = getTeam(onlinePlayer.getScoreboard(), height + teamplayername,
                         playerPerms.getPermissionsPrefix(), "");
                 if(!playerTeam.hasEntry(player.getName()))
                     playerTeam.addEntry(player.getName());

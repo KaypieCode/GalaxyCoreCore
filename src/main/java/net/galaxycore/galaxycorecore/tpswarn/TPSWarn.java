@@ -56,7 +56,7 @@ public class TPSWarn implements Runnable {
 
                 DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
 
-                embed.setTitle("TPS DES SERVERS " + Bukkit.getServer().getName() + " NIEDRIG");
+                embed.setTitle("**TPS DES SERVERS " + Bukkit.getServer().getName() + " NIEDRIG**");
                 embed.setDescription("Die TPS des Servers sind aktuell " + getTPS() + " / 20");
                 embed.setFooter(Bukkit.getServer().getName(), "");
 

@@ -1,6 +1,7 @@
 package net.galaxycore.galaxycorecore;
 
 import lombok.Getter;
+import net.galaxycore.galaxycorecore.apiutils.CoreProvider;
 import net.galaxycore.galaxycorecore.chatlog.ChatLog;
 import net.galaxycore.galaxycorecore.chattools.ChatBuffer;
 import net.galaxycore.galaxycorecore.chattools.ChatClearCommand;
@@ -43,6 +44,10 @@ public class GalaxyCoreCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // SET OWN INSTANCE FOR API USAGE //
+        CoreProvider.setCore(this);
+
+
         PluginManager pluginManager = Bukkit.getPluginManager();
 
         // CONFIGURATION //

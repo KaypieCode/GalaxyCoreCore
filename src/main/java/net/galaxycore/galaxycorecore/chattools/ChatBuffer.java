@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.galaxycore.galaxycorecore.utils.StringUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -63,7 +64,7 @@ public class ChatBuffer {
 
             if (chatMessage.isChat_clearer()){
                 chatManager.sendToNoPermissionAfterId(Component.text(chatMessage.getMessage()), "core.command.chat.clear.bypass", chatMessage.getId());
-                chatManager.sendToPermissionAfterId(Component.text(I18N.getInstanceRef().get().get("de_DE", "core.chat.clear.placeholder")), "core.command.chat.clear", chatMessage.getId());
+                chatManager.sendToPermissionAfterId(Component.text(StringUtils.replaceRelevantNoPermissions(I18N.getInstanceRef().get().get("de_DE", "core.chat.clear.placeholder"),chatMessage.getPlayer())), "core.command.chat.clear", chatMessage.getId());
                 return;
             }
 

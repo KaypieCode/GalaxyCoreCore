@@ -31,8 +31,8 @@ public class I18N implements II18NPort{
 
         try {
             if (!databaseConfiguration.getConnection().prepareStatement("SELECT id FROM I18N_languages;").executeQuery().next()){
-                databaseConfiguration.getConnection().prepareStatement("INSERT INTO I18N_languages (id, lang, head_data, english_name, local_name, date_fmt, time_fmt) VALUES (1, 'de_DE', 'head_de_DE', 'German', 'Deutsch', 'DD.MM.YYYY', 'mm:ss');").executeUpdate();
-                databaseConfiguration.getConnection().prepareStatement("INSERT INTO I18N_languages (id, lang, head_data, english_name, local_name, date_fmt, time_fmt) VALUES (2, 'fr_FR', 'head_fr_FR', 'French', 'Francais', 'DD.MM.YYYY', 'mm:ss');").executeUpdate();
+                databaseConfiguration.getConnection().prepareStatement("INSERT INTO I18N_languages (lang, head_data, english_name, local_name, date_fmt, time_fmt) VALUES ('de_DE', 'head_de_DE', 'German', 'Deutsch', 'DD.MM.YYYY', 'mm:ss');").executeUpdate();
+                databaseConfiguration.getConnection().prepareStatement("INSERT INTO I18N_languages (lang, head_data, english_name, local_name, date_fmt, time_fmt) VALUES ('fr_FR', 'head_fr_FR', 'French', 'Francais', 'DD.MM.YYYY', 'mm:ss');").executeUpdate();
             }
         }
         catch (SQLException throwables) {

@@ -9,7 +9,8 @@ public class SqlUtils {
         try {
             for (String query : FileUtils.readSqlScript(scope, name, databaseConfiguration.getInternalConfiguration().getConnection().equals("sqlite") ? "sqlite" : "mysql").split(";")) {
                 query = query.replace("\n", "");
-                databaseConfiguration.getConnection().prepareStatement(query).executeUpdate();
+                if (!query.equals(""))
+                    databaseConfiguration.getConnection().prepareStatement(query).executeUpdate();
             }
 
         } catch (SQLException throwables) {

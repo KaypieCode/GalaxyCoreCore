@@ -30,4 +30,17 @@ class StringUtilsTest {
         assertEquals(expected, actual);
 
     }
+
+    @Test
+    void replaceRelevantNoPermissions() {
+        Player mockPlayer = mock(Player.class);
+        when(mockPlayer.getName()).thenReturn("thomas");
+
+        String testString = "My Name is %player%";
+        String expected = "My Name is thomas";
+
+        String actual = StringUtils.replaceRelevantNoPermissions(testString, mockPlayer);
+
+        assertEquals(expected, actual);
+    }
 }

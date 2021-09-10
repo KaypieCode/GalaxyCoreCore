@@ -10,12 +10,11 @@ import net.galaxycore.galaxycorecore.chattools.ChattoolsPlayerRegisterer;
 import net.galaxycore.galaxycorecore.configuration.*;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
-import net.galaxycore.galaxycorecore.playerFormatting.FormatRoutine;
-import net.galaxycore.galaxycorecore.playerFormatting.TablistFormatter;
 import net.galaxycore.galaxycorecore.tablist.SortTablist;
 import net.galaxycore.galaxycorecore.tpswarn.TPSWarn;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -44,11 +43,11 @@ public class GalaxyCoreCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // SET OWN INSTANCE FOR API USAGE //
-        CoreProvider.setCore(this);
-
-
         PluginManager pluginManager = Bukkit.getPluginManager();
+
+        // SET OWN INSTANCE FOR API USAGE //
+        new CoreProvider().set(this);
+        getServer().getServicesManager().register(GalaxyCoreCore.class, this, this, ServicePriority.Highest);
 
         // CONFIGURATION //
         InternalConfiguration internalConfiguration = new InternalConfiguration(getDataFolder());
@@ -60,7 +59,7 @@ public class GalaxyCoreCore extends JavaPlugin {
 
         I18N.init(this);
 
-        /* Why? Because other Plugins can load their defaults in the mean time */
+        /* Why? Because other Plugins can load their defaults in the meantime */
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, I18N::load);
 
         // DEFAULT CONFIG VALUES //
@@ -80,7 +79,7 @@ public class GalaxyCoreCore extends JavaPlugin {
         // CHAT TOOLS //
         chatBuffer = new ChatBuffer(this);
         Objects.requireNonNull(getCommand("chattools")).setExecutor(new ChatToolsCommand(this));
-        Objects.requireNonNull(getCommand("cc"       )).setExecutor(new ChatClearCommand(this));
+        Objects.requireNonNull(getCommand("cc")).setExecutor(new ChatClearCommand(this));
 
         Bukkit.getPluginManager().registerEvents(new ChattoolsPlayerRegisterer(this), this);
 

@@ -141,7 +141,7 @@ public class I18N implements II18NPort{
         }
 
         try {
-            ResultSet playerLocales = databaseConfiguration.getConnection().prepareStatement("SELECT core_playercache.uuid, I18N_languages.lang FROM core_playercache, I18N_player_data, I18N_languages WHERE core_playercache.id == I18N_player_data.id AND I18N_player_data.language_id == I18N_languages.id").executeQuery();
+            ResultSet playerLocales = databaseConfiguration.getConnection().prepareStatement("SELECT core_playercache.uuid, I18N_languages.lang FROM core_playercache, I18N_player_data, I18N_languages WHERE core_playercache.id = I18N_player_data.id AND I18N_player_data.language_id = I18N_languages.id").executeQuery();
 
             while (playerLocales.next()){
                 UUID uuid = UUID.fromString(playerLocales.getString("uuid"));

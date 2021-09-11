@@ -1,12 +1,16 @@
 package net.galaxycore.galaxycorecore.chattools;
 
 import lombok.Getter;
+import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
+import net.galaxycore.galaxycorecore.utils.StringUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 public class ChatManager {
     @Getter private static final HashMap<UUID, Integer> messageIdAfterJoin = new HashMap<>();
@@ -17,6 +21,10 @@ public class ChatManager {
 
     public void sendToAll(Component msg) {
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(msg));
+    }
+
+    public void sendToAllI18NPrep(String key, LuckPermsApiWrapper wrapper) {
+        Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(StringUtils.replaceRelevant(I18N.getInstanceRef().get().get("de_DE", key), wrapper)));
     }
 
     public void sendToAllAfterId(Component msg, int id) {

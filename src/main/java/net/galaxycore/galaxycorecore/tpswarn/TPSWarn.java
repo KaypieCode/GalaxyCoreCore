@@ -2,6 +2,7 @@ package net.galaxycore.galaxycorecore.tpswarn;
 
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.utils.DiscordWebhook;
+import net.galaxycore.galaxycorecore.utils.ServerNameUtil;
 import org.bukkit.Bukkit;
 
 import java.io.IOException;
@@ -56,7 +57,7 @@ public class TPSWarn implements Runnable {
 
                 DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
 
-                embed.setTitle("**TPS DES SERVERS " + Bukkit.getServer().getName() + " NIEDRIG**");
+                embed.setTitle("**TPS DES SERVERS " + ServerNameUtil.getName() + " NIEDRIG**");
                 embed.setDescription("Die TPS des Servers sind aktuell " + getTPS() + " / 20");
                 embed.setFooter(Bukkit.getServer().getName(), "");
 

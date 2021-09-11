@@ -21,7 +21,7 @@ class I18NTest {
 
         if (dataFolder.exists()) {
             try {
-               FileUtils.deleteDirectory(dataFolder);
+                FileUtils.deleteDirectory(dataFolder);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -47,25 +47,27 @@ class I18NTest {
 
         try {
             I18N.init(mainMock);
-        }catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        I18N.setDefaultByLang("de_DE", "TestKey1", "Test Value1");
-        I18N.setDefaultByLang("de_DE", "TestKey2", "Test Value2");
-        I18N.setDefaultByLang("de_DE", "TestKey3", "Test Value3");
-        I18N.setDefaultByLang("de_DE", "TestKey4", "Test Value4");
-        I18N.setDefaultByLang("de_DE", "TestKey5", "Test Value5");
-        I18N.setDefaultByLang("de_DE", "TestKey6", "Test Value6");
+        I18N.getInstanceRef().get().setDefault("de_DE", "TestKey1", "Test Value1");
+        I18N.getInstanceRef().get().setDefault("de_DE", "TestKey2", "Test Value2");
+        I18N.getInstanceRef().get().setDefault("de_DE", "TestKey3", "Test Value3");
+        I18N.getInstanceRef().get().setDefault("de_DE", "TestKey4", "Test Value4");
+        I18N.getInstanceRef().get().setDefault("de_DE", "TestKey5", "Test Value5");
+        I18N.getInstanceRef().get().setDefault("de_DE", "TestKey6", "Test Value6");
 
-        I18N.setDefaultByLang("fr_FR", "TestKey1", "tést vâlue1");
-        I18N.setDefaultByLang("fr_FR", "TestKey2", "tést vâlue2");
-        I18N.setDefaultByLang("fr_FR", "TestKey3", "tést vâlue3");
-        I18N.setDefaultByLang("fr_FR", "TestKey4", "tést vâlue4");
-        I18N.setDefaultByLang("fr_FR", "TestKey5", "tést vâlue5");
-        I18N.setDefaultByLang("fr_FR", "TestKey6", "tést vâlue6");
+        I18N.getInstanceRef().get().setDefault("fr_FR", "TestKey1", "tést vâlue1");
+        I18N.getInstanceRef().get().setDefault("fr_FR", "TestKey2", "tést vâlue2");
+        I18N.getInstanceRef().get().setDefault("fr_FR", "TestKey3", "tést vâlue3");
+        I18N.getInstanceRef().get().setDefault("fr_FR", "TestKey4", "tést vâlue4");
+        I18N.getInstanceRef().get().setDefault("fr_FR", "TestKey5", "tést vâlue5");
+        I18N.getInstanceRef().get().setDefault("fr_FR", "TestKey6", "tést vâlue6");
 
-        I18N.load();
+        I18N.getInstanceRef().get().retrieve();
 
-        assertEquals(I18N.getByLang("de_DE", "TestKey1"), "Test Value1");
-        assertEquals(I18N.getByLang("fr_FR", "TestKey2"), "tést vâlue2");
+        assertEquals(I18N.getInstanceRef().get().get("de_DE", "TestKey1"), "Test Value1");
+        assertEquals(I18N.getInstanceRef().get().get("fr_FR", "TestKey2"), "tést vâlue2");
     }
 }

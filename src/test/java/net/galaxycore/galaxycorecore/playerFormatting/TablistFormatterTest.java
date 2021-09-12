@@ -24,7 +24,8 @@ class TablistFormatterTest {
         when(mockPlayer.hasPermission("core.chat.important")).thenReturn(true);
 
         LuckPermsApiWrapper mockWrapper = mock(LuckPermsApiWrapper.class);
-        when(mockWrapper.getPlayer()).thenReturn(mockPlayer);
+        when(mockWrapper.getPlayerName()).thenReturn("Deppelopfer");
+        when(mockWrapper.isChatImportant()).thenReturn(true);
         when(mockWrapper.getPermissionsDisplayName()).thenReturn("testname");
         when(mockWrapper.getPermissionsColor()).thenReturn("testcolor");
         when(mockWrapper.getPermissionsPrefix()).thenReturn("testprefix");

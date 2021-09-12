@@ -10,6 +10,7 @@ import net.galaxycore.galaxycorecore.chattools.ChattoolsPlayerRegisterer;
 import net.galaxycore.galaxycorecore.configuration.*;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
+import net.galaxycore.galaxycorecore.playerFormatting.PlayerJoinLeaveListener;
 import net.galaxycore.galaxycorecore.tablist.SortTablist;
 import net.galaxycore.galaxycorecore.tpswarn.TPSWarn;
 import org.bukkit.Bukkit;
@@ -98,10 +99,13 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "core.chat.tools.haste", "§eSpeicher alle Nachrichten ab dieser");
         I18N.setDefaultByLang("de_DE", "core.chat.tools.haste.confirm", "§aFertig! Hier ist dein Link: ");
         I18N.setDefaultByLang("de_DE", "core.chat.clear.placeholder", "§c%player% hat den Chat gecleared.");
+        I18N.setDefaultByLang("de_DE", "core.event.join", "§7[§a+§7] %rank_prefix%%player%");
+        I18N.setDefaultByLang("de_DE", "core.event.leave", "§7[§c-§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("de_DE", "core.error", "§4Es ist ein Fehler aufgetreten!");
 
         // FORMATTING //
         chatFormatter = new ChatFormatter(this);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinLeaveListener(this), this);
 
         // CHATLOGS //
         chatLog = new ChatLog(this);

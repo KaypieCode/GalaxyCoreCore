@@ -98,7 +98,7 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "core.chat.tools.copy.website", "Kopieren");
         I18N.setDefaultByLang("de_DE", "core.chat.tools.haste", "§eSpeicher alle Nachrichten ab dieser");
         I18N.setDefaultByLang("de_DE", "core.chat.tools.haste.confirm", "§aFertig! Hier ist dein Link: ");
-        I18N.setDefaultByLang("de_DE", "core.chat.clear.placeholder", "§c%player% hat den Chat gecleared.");
+        I18N.setDefaultByLang("de_DE", "core.chat.clear.placeholder", "%rank_color%%rank_player%§e hat den Chat gecleared.");
         I18N.setDefaultByLang("de_DE", "core.event.join", "§7[§a+§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("de_DE", "core.event.leave", "§7[§c-§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("de_DE", "core.error", "§4Es ist ein Fehler aufgetreten!");

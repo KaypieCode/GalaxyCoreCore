@@ -18,7 +18,7 @@ public class LuckPermsApiWrapper {
     private final User user;
     private final Group primaryGroup;
 
-    public LuckPermsApiWrapper(Player player){
+    public LuckPermsApiWrapper(Player player) {
         api = LuckPermsProvider.get();
         user = api.getUserManager().getUser(player.getUniqueId());
 
@@ -28,7 +28,16 @@ public class LuckPermsApiWrapper {
 
         this.player = player;
     }
-    public String getPermissionsPrefix(){
+
+    public LuckPermsApiWrapper() {
+        player = null;
+        api = null;
+        user = null;
+        primaryGroup = null;
+    }
+
+
+    public String getPermissionsPrefix() {
         @Nullable String prefix = primaryGroup.getCachedData().getMetaData().getPrefix();
 
         if (prefix != null)
@@ -37,7 +46,7 @@ public class LuckPermsApiWrapper {
             throw new MissingFieldException("Prefix");
     }
 
-    public String getPermissionsColor(){
+    public String getPermissionsColor() {
         @Nullable String suffix = primaryGroup.getCachedData().getMetaData().getSuffix();
 
         if (suffix != null)
@@ -46,7 +55,7 @@ public class LuckPermsApiWrapper {
             throw new MissingFieldException("Suffix");
     }
 
-    public String getPermissionsDisplayName(){
+    public String getPermissionsDisplayName() {
         @Nullable String name = primaryGroup.getDisplayName();
 
         if (name != null)
@@ -55,7 +64,7 @@ public class LuckPermsApiWrapper {
             throw new MissingFieldException("DisplayName");
     }
 
-    public int getPermissionsWeight(){
+    public int getPermissionsWeight() {
         OptionalInt weight = primaryGroup.getWeight();
 
         if (weight.isPresent())
@@ -64,8 +73,19 @@ public class LuckPermsApiWrapper {
             throw new MissingFieldException("Weight");
     }
 
-    public String getPermissionsGroupNameRaw(){
+    public String getPermissionsGroupNameRaw() {
         return user.getPrimaryGroup();
     }
 
+    public String getPlayerName() {
+        return player.getName();
+    }
+
+    public boolean isChatImportant() {
+        return player.hasPermission("core.chat.important");
+    }
+
+    public Player getPlayer(){
+        return player;
+    }
 }

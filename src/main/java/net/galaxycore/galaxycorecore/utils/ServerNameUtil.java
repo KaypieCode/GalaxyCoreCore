@@ -10,7 +10,7 @@ public class ServerNameUtil {
 
         try{
             name = new ServerNameProviderCloudNet().getName();
-        }catch (Exception ignored){/* This happens if the CloudNetApi cannot be found*/}
+        }catch (java.lang.NoClassDefFoundError ignored){/* This happens if the CloudNetApi cannot be found*/}
 
         return name;
     }

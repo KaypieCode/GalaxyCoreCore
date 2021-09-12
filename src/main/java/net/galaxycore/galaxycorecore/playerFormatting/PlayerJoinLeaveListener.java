@@ -57,6 +57,6 @@ public class PlayerJoinLeaveListener implements Listener {
     }
 
     public static void sendPJLMessage(ChatMessage message, ChatManager manager){
-        manager.sendToAllI18NPrep(message.getMessage(), message.getFrozen_lp());
+        manager.sendToAllI18NPrepAfterId(message.getMessage(), message.getFrozen_lp(), message.getId());
     }
 }

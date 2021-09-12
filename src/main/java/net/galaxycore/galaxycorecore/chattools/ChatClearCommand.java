@@ -3,6 +3,7 @@ package net.galaxycore.galaxycorecore.chattools;
 import lombok.Getter;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.MessageProvider;
+import net.galaxycore.galaxycorecore.permissions.FrozenApiWrapper;
 import net.galaxycore.galaxycorecore.utils.PlayerUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,6 +33,7 @@ public class ChatClearCommand implements CommandExecutor {
         ChatMessage fillerMessage = new ChatMessage(core.getChatBuffer().getCurrentId(), player, String.join("", Collections.nCopies(300, "\n")), 401);
 
         fillerMessage.setChat_clearer(true);
+        fillerMessage.setFrozen_lp(FrozenApiWrapper.wrapAutomatically(player));
 
         core.getChatBuffer().getRingBuffer().add(fillerMessage);
         core.getChatBuffer().setCurrentId(core.getChatBuffer().getCurrentId() + 1);

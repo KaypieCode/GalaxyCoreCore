@@ -10,12 +10,12 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 public class ChatManager {
-    @Getter private static final HashMap<UUID, Integer> messageIdAfterJoin = new HashMap<>();
+    @Getter
+    private static final HashMap<UUID, Integer> messageIdAfterJoin = new HashMap<>();
 
-    public void registerPlayer(Player player, Integer currentId){
+    public void registerPlayer(Player player, Integer currentId) {
         getMessageIdAfterJoin().put(player.getUniqueId(), currentId);
     }
 
@@ -23,27 +23,42 @@ public class ChatManager {
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(msg));
     }
 
-    public void sendToAllI18NPrep(String key, LuckPermsApiWrapper wrapper) {
-        Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(StringUtils.replaceRelevant(I18N.getInstanceRef().get().get("de_DE", key), wrapper)));
+    public void sendToAllI18NPrepAfterId(String key, LuckPermsApiWrapper wrapper, int id) {
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (getMessageIdAfterJoin().get(player.getUniqueId()) <= id)
+                player.sendMessage(StringUtils.replaceRelevant(I18N.getInstanceRef().get().get("de_DE", key), wrapper));
+        });
     }
 
     public void sendToAllAfterId(Component msg, int id) {
-        Bukkit.getOnlinePlayers().forEach(player -> {if (getMessageIdAfterJoin().get(player.getUniqueId()) <= id) player.sendMessage(msg);});
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (getMessageIdAfterJoin().get(player.getUniqueId()) <= id) player.sendMessage(msg);
+        });
     }
 
     public void sendToPermissionAfterId(Component msg, String permission, int id) {
-        Bukkit.getOnlinePlayers().forEach(player -> {if (player.hasPermission(permission) && getMessageIdAfterJoin().get(player.getUniqueId()) <= id) player.sendMessage(msg);});
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (player.hasPermission(permission) && getMessageIdAfterJoin().get(player.getUniqueId()) <= id)
+                player.sendMessage(msg);
+        });
     }
 
     public void sendToNoPermissionAfterId(Component msg, String permission, int id) {
-        Bukkit.getOnlinePlayers().forEach(player -> {if (!player.hasPermission(permission) && getMessageIdAfterJoin().get(player.getUniqueId()) <= id) player.sendMessage(msg);});
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (!player.hasPermission(permission) && getMessageIdAfterJoin().get(player.getUniqueId()) <= id)
+                player.sendMessage(msg);
+        });
     }
 
     public void sendToPermission(Component msg, String permission) {
-        Bukkit.getOnlinePlayers().forEach(player -> {if (player.hasPermission(permission)) player.sendMessage(msg);});
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (player.hasPermission(permission)) player.sendMessage(msg);
+        });
     }
 
     public void sendToNoPermission(Component msg, String permission) {
-        Bukkit.getOnlinePlayers().forEach(player -> {if (!player.hasPermission(permission)) player.sendMessage(msg);});
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (!player.hasPermission(permission)) player.sendMessage(msg);
+        });
     }
 }

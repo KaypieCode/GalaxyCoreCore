@@ -11,6 +11,7 @@ import net.galaxycore.galaxycorecore.configuration.*;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
 import net.galaxycore.galaxycorecore.playerFormatting.PlayerJoinLeaveListener;
+import net.galaxycore.galaxycorecore.tabcompletion.PlayerTabCompleteListener;
 import net.galaxycore.galaxycorecore.tablist.SortTablist;
 import net.galaxycore.galaxycorecore.tpswarn.TPSWarn;
 import org.bukkit.Bukkit;
@@ -41,6 +42,9 @@ public class GalaxyCoreCore extends JavaPlugin {
 
     // TABLIST SORT AND NAMETAGS //
     private SortTablist sortTablist;
+
+    // BLOCK TAB COMPLETION //
+    private PlayerTabCompleteListener playerTabCompleteListener;
 
     @Override
     public void onEnable() {
@@ -121,6 +125,10 @@ public class GalaxyCoreCore extends JavaPlugin {
 
         pluginManager.registerEvents(chatFormatter, this);
         pluginManager.registerEvents(chatLog, this);
+
+        // BLOCK TAB COMPLETION //
+        playerTabCompleteListener = new PlayerTabCompleteListener(this);
+
     }
 
     @Override

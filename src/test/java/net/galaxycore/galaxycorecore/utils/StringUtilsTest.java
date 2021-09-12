@@ -16,7 +16,8 @@ class StringUtilsTest {
         when(mockPlayer.hasPermission("core.chat.important")).thenReturn(true);
 
         LuckPermsApiWrapper mockWrapper = mock(LuckPermsApiWrapper.class);
-        when(mockWrapper.getPlayer()).thenReturn(mockPlayer);
+        when(mockWrapper.getPlayerName()).thenReturn("Deppelopfer");
+        when(mockWrapper.isChatImportant()).thenReturn(true);
         when(mockWrapper.getPermissionsDisplayName()).thenReturn("testname");
         when(mockWrapper.getPermissionsColor()).thenReturn("testcolor");
         when(mockWrapper.getPermissionsPrefix()).thenReturn("testprefix");
@@ -28,6 +29,18 @@ class StringUtilsTest {
         String actual = StringUtils.replaceRelevant(testString, mockWrapper);
 
         assertEquals(expected, actual);
+    }
 
+    @Test
+    void replaceRelevantNoPermissions() {
+        Player mockPlayer = mock(Player.class);
+        when(mockPlayer.getName()).thenReturn("thomas");
+
+        String testString = "My Name is %player%";
+        String expected = "My Name is thomas";
+
+        String actual = StringUtils.replaceRelevantNoPermissions(testString, mockPlayer);
+
+        assertEquals(expected, actual);
     }
 }

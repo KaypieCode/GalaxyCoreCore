@@ -1,6 +1,7 @@
 package net.galaxycore.galaxycorecore;
 
 import lombok.Getter;
+import net.galaxycore.galaxycorecore.apiutils.CoreProvider;
 import net.galaxycore.galaxycorecore.chatlog.ChatLog;
 import net.galaxycore.galaxycorecore.chattools.ChatBuffer;
 import net.galaxycore.galaxycorecore.chattools.ChatClearCommand;
@@ -9,12 +10,12 @@ import net.galaxycore.galaxycorecore.chattools.ChattoolsPlayerRegisterer;
 import net.galaxycore.galaxycorecore.configuration.*;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
-import net.galaxycore.galaxycorecore.playerFormatting.FormatRoutine;
-import net.galaxycore.galaxycorecore.playerFormatting.TablistFormatter;
+import net.galaxycore.galaxycorecore.playerFormatting.PlayerJoinLeaveListener;
 import net.galaxycore.galaxycorecore.tablist.SortTablist;
 import net.galaxycore.galaxycorecore.tpswarn.TPSWarn;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -45,6 +46,10 @@ public class GalaxyCoreCore extends JavaPlugin {
     public void onEnable() {
         PluginManager pluginManager = Bukkit.getPluginManager();
 
+        // SET OWN INSTANCE FOR API USAGE //
+        new CoreProvider().set(this);
+        getServer().getServicesManager().register(GalaxyCoreCore.class, this, this, ServicePriority.Highest);
+
         // CONFIGURATION //
         InternalConfiguration internalConfiguration = new InternalConfiguration(getDataFolder());
         databaseConfiguration = new DatabaseConfiguration(internalConfiguration);
@@ -55,7 +60,7 @@ public class GalaxyCoreCore extends JavaPlugin {
 
         I18N.init(this);
 
-        /* Why? Because other Plugins can load their defaults in the mean time */
+        /* Why? Because other Plugins can load their defaults in the meantime */
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, I18N::load);
 
         // DEFAULT CONFIG VALUES //
@@ -75,7 +80,7 @@ public class GalaxyCoreCore extends JavaPlugin {
         // CHAT TOOLS //
         chatBuffer = new ChatBuffer(this);
         Objects.requireNonNull(getCommand("chattools")).setExecutor(new ChatToolsCommand(this));
-        Objects.requireNonNull(getCommand("cc"       )).setExecutor(new ChatClearCommand(this));
+        Objects.requireNonNull(getCommand("cc")).setExecutor(new ChatClearCommand(this));
 
         Bukkit.getPluginManager().registerEvents(new ChattoolsPlayerRegisterer(this), this);
 
@@ -93,11 +98,14 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "core.chat.tools.copy.website", "Kopieren");
         I18N.setDefaultByLang("de_DE", "core.chat.tools.haste", "§eSpeicher alle Nachrichten ab dieser");
         I18N.setDefaultByLang("de_DE", "core.chat.tools.haste.confirm", "§aFertig! Hier ist dein Link: ");
-        I18N.setDefaultByLang("de_DE", "core.chat.clear.placeholder", "§c<Chat gecleared>");
+        I18N.setDefaultByLang("de_DE", "core.chat.clear.placeholder", "%rank_color%%rank_player%§e hat den Chat gecleared.");
+        I18N.setDefaultByLang("de_DE", "core.event.join", "§7[§a+§7] %rank_prefix%%player%");
+        I18N.setDefaultByLang("de_DE", "core.event.leave", "§7[§c-§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("de_DE", "core.error", "§4Es ist ein Fehler aufgetreten!");
 
         // FORMATTING //
         chatFormatter = new ChatFormatter(this);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinLeaveListener(this), this);
 
         // CHATLOGS //
         chatLog = new ChatLog(this);

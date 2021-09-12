@@ -1,7 +1,11 @@
 package net.galaxycore.galaxycorecore.chatlog;
 
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
+import net.galaxycore.galaxycorecore.chattools.ChatToolsCommand;
+import net.galaxycore.galaxycorecore.playerFormatting.events.FormattedChatMessageEvent;
 import net.galaxycore.galaxycorecore.utils.DiscordWebhook;
+import net.galaxycore.galaxycorecore.utils.ServerNameUtil;
+import net.galaxycore.galaxycorecore.utils.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,8 +15,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ForkJoinPool;
 
-@SuppressWarnings("deprecation")
 public class ChatLog implements Listener {
 
     GalaxyCoreCore core;
@@ -22,8 +26,8 @@ public class ChatLog implements Listener {
     }
 
     @EventHandler
-    public void onAsyncChat(AsyncPlayerChatEvent event) throws IOException {
-        handleChatMessage(event.getMessage(), event.getPlayer(), event.getPlayer().getServer().getName());
+    public void onAsyncChat(FormattedChatMessageEvent event) throws IOException {
+        handleChatMessage(event.getFormatted(), event.getPlayer(), ServerNameUtil.getName());
     }
 
     public void handleChatMessage(String message, Player player, String server) throws IOException {
@@ -33,8 +37,9 @@ public class ChatLog implements Listener {
 
         DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
 
+        message = ChatToolsCommand.replaceColorCodes(message);
+
         // Set the Details of the Embed
-        embed.setTitle(quote(player.getName()));
         embed.setDescription(quote(message));
         embed.setThumbnail("https://minotar.net/bust/" + player.getName() + "/190.png");
         embed.setFooter(server, "");

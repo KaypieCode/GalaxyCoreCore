@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `core_playercache`
 (
-    `id`                INTEGER auto_increment,
+    `id`                INTEGER AUTO_INCREMENT PRIMARY KEY,
     `uuid`              VARCHAR(255) NOT NULL,
     `lastname`          VARCHAR(255) NOT NULL,
     `firstlogin`        TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `core_playercache`
 
 CREATE TABLE IF NOT EXISTS `core_bans`
 (
-    `id`        INTEGER auto_increment,
+    `id`        INTEGER AUTO_INCREMENT PRIMARY KEY,
     `userid`    INTEGER   NOT NULL,
     `reasonid`  INTEGER   NOT NULL,
     `banpoints` INTEGER   NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `core_bans`
 
 CREATE TABLE IF NOT EXISTS `core_mutes`
 (
-    `id`         INTEGER auto_increment,
+    `id`         INTEGER AUTO_INCREMENT PRIMARY KEY,
     `userid`     INTEGER      NOT NULL,
     `reasonid`   INTEGER      NOT NULL,
     `mutepoints` INTEGER      NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `core_mutes`
 
 CREATE TABLE IF NOT EXISTS `core_warns`
 (
-    `id`         INTEGER auto_increment,
+    `id`         INTEGER AUTO_INCREMENT PRIMARY KEY,
     `userid`     INTEGER   NOT NULL,
     `reasonid`   INTEGER   NOT NULL,
     `warnpoints` INTEGER   NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `core_warns`
 
 CREATE TABLE IF NOT EXISTS `core_reports`
 (
-    `id`       INTEGER auto_increment,
+    `id`       INTEGER AUTO_INCREMENT PRIMARY KEY,
     `reported` INTEGER   NOT NULL,
     `reporter` INTEGER,
     `date`     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `core_reports`
 
 CREATE TABLE IF NOT EXISTS `core_punishment_reasons`
 (
-    `id`                       INTEGER auto_increment,
+    `id`                       INTEGER AUTO_INCREMENT PRIMARY KEY,
     `name`                     VARCHAR(255) NOT NULL,
     `required_permission_warn` VARCHAR(255) NOT NULL,
     `required_permission_mute` VARCHAR(255) NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `core_punishment_reasons`
 
 CREATE TABLE IF NOT EXISTS `core_coins_transactions`
 (
-    `id`                  INTEGER auto_increment,
+    `id`                  INTEGER AUTO_INCREMENT PRIMARY KEY,
     `player`              INTEGER      NOT NULL,
     `transaction_partner` INTEGER,
     `amount`              INTEGER      NOT NULL,

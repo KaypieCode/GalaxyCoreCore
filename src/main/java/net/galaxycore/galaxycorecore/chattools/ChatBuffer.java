@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.galaxycore.galaxycorecore.playerFormatting.PlayerJoinLeaveListener;
+import net.galaxycore.galaxycorecore.utils.StringUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -61,9 +63,15 @@ public class ChatBuffer {
         getRingBuffer().forEach(chatMessage -> {
             Component component = Component.text("§8 [§7☰§8]").hoverEvent(HoverEvent.showText(Component.text(I18N.getInstanceRef().get().get("de_DE", "core.chat.tools.open")))).clickEvent(ClickEvent.runCommand("/chattools " + chatMessage.getId()));
 
+            if (chatMessage.getOthertype() == OtherChatMessageTypes.I18N_PJL) {
+                PlayerJoinLeaveListener.sendPJLMessage(chatMessage, chatManager);
+                return;
+            }
+
+
             if (chatMessage.isChat_clearer()){
                 chatManager.sendToNoPermissionAfterId(Component.text(chatMessage.getMessage()), "core.command.chat.clear.bypass", chatMessage.getId());
-                chatManager.sendToPermissionAfterId(Component.text(I18N.getInstanceRef().get().get("de_DE", "core.chat.clear.placeholder")), "core.command.chat.clear", chatMessage.getId());
+                chatManager.sendToAllI18NPrepAfterId("core.chat.clear.placeholder", chatMessage.getFrozen_lp(), chatMessage.getId());
                 return;
             }
 

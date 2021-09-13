@@ -1,6 +1,7 @@
 package net.galaxycore.galaxycorecore;
 
 import lombok.Getter;
+import me.kodysimpson.menumanagersystem.listeners.MenuListener;
 import net.galaxycore.galaxycorecore.apiutils.CoreProvider;
 import net.galaxycore.galaxycorecore.chatlog.ChatLog;
 import net.galaxycore.galaxycorecore.chattools.ChatBuffer;
@@ -59,6 +60,10 @@ public class GalaxyCoreCore extends JavaPlugin {
         databaseConfiguration = new DatabaseConfiguration(internalConfiguration);
 
         coreNamespace = databaseConfiguration.getNamespace("core");
+
+        // MENU MANAGER SYSTEM //
+
+        Bukkit.getPluginManager().registerEvents(new MenuListener(), this);
 
         // I18N
 

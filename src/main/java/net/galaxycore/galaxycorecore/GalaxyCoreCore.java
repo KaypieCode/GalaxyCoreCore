@@ -10,6 +10,8 @@ import net.galaxycore.galaxycorecore.chattools.ChatToolsCommand;
 import net.galaxycore.galaxycorecore.chattools.ChattoolsPlayerRegisterer;
 import net.galaxycore.galaxycorecore.configuration.*;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.galaxycore.galaxycorecore.events.ServerLoadedEvent;
+import net.galaxycore.galaxycorecore.events.ServerTimePassedEvent;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
 import net.galaxycore.galaxycorecore.playerFormatting.PlayerJoinLeaveListener;
 import net.galaxycore.galaxycorecore.tabcompletion.PlayerTabCompleteListener;
@@ -70,7 +72,10 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.init(this);
 
         /* Why? Because other Plugins can load their defaults in the meantime */
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this, I18N::load);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+            I18N.load();
+            Bukkit.getPluginManager().callEvent(new ServerLoadedEvent());
+        });
 
         // DEFAULT CONFIG VALUES //
         coreNamespace.setDefault("prefix", "§5Galaxy§6Core §l§8»§r§7 ");
@@ -134,6 +139,8 @@ public class GalaxyCoreCore extends JavaPlugin {
         // BLOCK TAB COMPLETION //
         playerTabCompleteListener = new PlayerTabCompleteListener(this);
 
+        // SPECIAL EVENTS //
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> Bukkit.getPluginManager().callEvent(new ServerTimePassedEvent()), 20, 5);
     }
 
     @Override

@@ -8,7 +8,7 @@ public class ServerLoadedEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
 
     public ServerLoadedEvent() {
-        super(true);
+        super(false);
     }
 
     public @NotNull HandlerList getHandlers() {

@@ -8,7 +8,7 @@ public class ServerTimePassedEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
 
     public ServerTimePassedEvent() {
-        super(true);
+        super(false);
     }
 
     public @NotNull HandlerList getHandlers() {

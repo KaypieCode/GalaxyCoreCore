@@ -58,16 +58,16 @@ class I18NTest {
         I18N.getInstanceRef().get().setDefault("de_DE", "TestKey5", "Test Value5");
         I18N.getInstanceRef().get().setDefault("de_DE", "TestKey6", "Test Value6");
 
-        I18N.getInstanceRef().get().setDefault("fr_FR", "TestKey1", "tést vâlue1");
-        I18N.getInstanceRef().get().setDefault("fr_FR", "TestKey2", "tést vâlue2");
-        I18N.getInstanceRef().get().setDefault("fr_FR", "TestKey3", "tést vâlue3");
-        I18N.getInstanceRef().get().setDefault("fr_FR", "TestKey4", "tést vâlue4");
-        I18N.getInstanceRef().get().setDefault("fr_FR", "TestKey5", "tést vâlue5");
-        I18N.getInstanceRef().get().setDefault("fr_FR", "TestKey6", "tést vâlue6");
+        I18N.getInstanceRef().get().setDefault("en_GB", "TestKey1", "test value1 🫖");
+        I18N.getInstanceRef().get().setDefault("en_GB", "TestKey2", "test value2 🫖");
+        I18N.getInstanceRef().get().setDefault("en_GB", "TestKey3", "test value3 🫖");
+        I18N.getInstanceRef().get().setDefault("en_GB", "TestKey4", "test value4 🫖");
+        I18N.getInstanceRef().get().setDefault("en_GB", "TestKey5", "test value5 🫖");
+        I18N.getInstanceRef().get().setDefault("en_GB", "TestKey6", "test value6 🫖");
 
         I18N.getInstanceRef().get().retrieve();
 
         assertEquals(I18N.getInstanceRef().get().get("de_DE", "TestKey1"), "Test Value1");
-        assertEquals(I18N.getInstanceRef().get().get("fr_FR", "TestKey2"), "tést vâlue2");
+        assertEquals(I18N.getInstanceRef().get().get("en_GB", "TestKey2"), "test value2 🫖");
     }
 }

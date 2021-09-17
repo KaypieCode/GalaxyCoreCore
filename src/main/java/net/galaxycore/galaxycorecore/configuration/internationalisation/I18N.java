@@ -32,8 +32,8 @@ public class I18N implements II18NPort {
 
         try {
             if (!databaseConfiguration.getConnection().prepareStatement("SELECT id FROM I18N_languages;").executeQuery().next()) {
-                databaseConfiguration.getConnection().prepareStatement("INSERT INTO I18N_languages (lang, head_data, english_name, local_name, date_fmt, time_fmt) VALUES ('de_DE', 'head_de_DE', 'German', 'Deutsch', 'DD.MM.YYYY', 'mm:ss');").executeUpdate();
-                databaseConfiguration.getConnection().prepareStatement("INSERT INTO I18N_languages (lang, head_data, english_name, local_name, date_fmt, time_fmt) VALUES ('fr_FR', 'head_fr_FR', 'French', 'Francais', 'DD.MM.YYYY', 'mm:ss');").executeUpdate();
+                databaseConfiguration.getConnection().prepareStatement("INSERT INTO I18N_languages (lang, head_data, english_name, local_name, date_fmt, time_fmt) VALUES ('de_DE', '5e7899b4806858697e283f084d9173fe487886453774626b24bd8cfecc77b3f', 'German', 'Deutsch', 'DD.MM.YYYY', 'mm:ss');").executeUpdate();
+                databaseConfiguration.getConnection().prepareStatement("INSERT INTO I18N_languages (lang, head_data, english_name, local_name, date_fmt, time_fmt) VALUES ('en_GB', 'a1701f21835a898b20759fb30a583a38b994abf60d3912ab4ce9f2311e74f72', 'English', 'English', 'DD.MM.YYYY', 'mm:ss');").executeUpdate();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

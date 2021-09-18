@@ -1,10 +1,14 @@
 package net.galaxycore.galaxycorecore.configuration.internationalisation;
 
-import java.util.UUID;
+import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 public interface II18NPort {
     void setDefault(String lang, String key, String value);
     String get(String lang, String key);
+    String get(Player player, String key);
     void retrieve();
-    I18N.MinecraftLocale getLocale(UUID uuid);
+    String getLocale(Player player);
+    HashMap<String, I18N.MinecraftLocale> getLanguages();
 }

@@ -50,8 +50,6 @@ public class I18NPlayerLoader implements Listener {
             return;
         }
 
-        System.out.println(4);
-
         AtomicReference<String> lang = new AtomicReference<>("");
 
         I18N.getInstanceRef().get().getLanguages().forEach((s, minecraftLocale) -> {
@@ -65,15 +63,11 @@ public class I18NPlayerLoader implements Listener {
             }
         });
 
-        System.out.println(lang);
-
         if(!lang.get().equals(""))
             languages.put(player, lang.get());
 
         loadResult.close();
         loadLanguage.close();
-
-        System.out.println(languages);
     }
 
     @EventHandler

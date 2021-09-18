@@ -22,31 +22,26 @@ import java.util.concurrent.atomic.AtomicReference;
 public class I18NPlayerLoader implements Listener {
     @Getter
     @Setter
-    @Inject
     public static I18NPlayerLoader playerLoaderInstance;
 
 
     @Getter
     private final HashMap<Player, String> languages = new HashMap<>();
 
-    public I18NPlayerLoader(){
-        Bukkit.getPluginManager().registerEvents(this, CoreProvider.getCore());
-    }
-
     @SneakyThrows
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         PlayerLoader playerLoader = PlayerLoader.loadNew(player);
-
         if (playerLoader == null) {
             return;
         }
 
+
         PreparedStatement loadLanguage = CoreProvider.getCore().getDatabaseConfiguration().getConnection()
                 .prepareStatement("SELECT language_id FROM I18N_player_data WHERE id=?");
 
-        loadLanguage.setString(1, player.getUniqueId().toString());
+        loadLanguage.setInt(1, playerLoader.getId());
         ResultSet loadResult = loadLanguage.executeQuery();
 
         if(!loadResult.next()){
@@ -55,6 +50,8 @@ public class I18NPlayerLoader implements Listener {
             return;
         }
 
+        System.out.println(4);
+
         AtomicReference<String> lang = new AtomicReference<>("");
 
         I18N.getInstanceRef().get().getLanguages().forEach((s, minecraftLocale) -> {
@@ -62,16 +59,21 @@ public class I18NPlayerLoader implements Listener {
                 if(loadResult.getInt("language_id") == minecraftLocale.getId()){
                     lang.set(s);
                 }
+                System.out.println(s);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
+
+        System.out.println(lang);
 
         if(!lang.get().equals(""))
             languages.put(player, lang.get());
 
         loadResult.close();
         loadLanguage.close();
+
+        System.out.println(languages);
     }
 
     @EventHandler

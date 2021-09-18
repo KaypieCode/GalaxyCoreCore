@@ -9,9 +9,10 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -76,9 +77,9 @@ public class PlayerLoader {
             loadResult.getInt("id"),
             UUID.fromString(loadResult.getString("uuid")),
             player.getName(),
-            loadResult.getDate("firstlogin"),
-            loadResult.getDate("lastlogin"),
-            loadResult.getDate("last_daily_reward"),
+            parse(loadResult, "firstlogin"),
+            parse(loadResult, "lastlogin"),
+            parse(loadResult, "last_daily_reward"),
             loadResult.getInt("banpoints"),
             loadResult.getInt("mutepoints"),
             loadResult.getInt("warnpoints"),
@@ -97,7 +98,7 @@ public class PlayerLoader {
         load.close();
 
         PreparedStatement update = connection.prepareStatement(
-                "UPDATE core_playercache SET lastname=?, lastlogin=DEFAULT WHERE id=?"
+                "UPDATE core_playercache SET lastname=?, lastlogin=CURRENT_TIMESTAMP WHERE id=?"
         );
         update.setString(1, playerLoader.getLastname());
         update.setInt(2, playerLoader.getId());
@@ -108,6 +109,14 @@ public class PlayerLoader {
         loaderHashMap.put(player.getUniqueId(), playerLoader);
 
         return playerLoader;
+    }
+
+    @SneakyThrows
+    private static Date parse(ResultSet resultSet, String field){
+        if (CoreProvider.getCore().getDatabaseConfiguration().getInternalConfiguration().getConnection().equals("sqlite")) {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(resultSet.getString(field));
+        }else
+            return resultSet.getDate(field);
     }
 
 }

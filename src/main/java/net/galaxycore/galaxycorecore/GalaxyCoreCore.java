@@ -1,6 +1,7 @@
 package net.galaxycore.galaxycorecore;
 
 import lombok.Getter;
+import me.kodysimpson.menumanagersystem.listeners.MenuListener;
 import net.galaxycore.galaxycorecore.apiutils.CoreProvider;
 import net.galaxycore.galaxycorecore.chatlog.ChatLog;
 import net.galaxycore.galaxycorecore.chattools.ChatBuffer;
@@ -9,8 +10,12 @@ import net.galaxycore.galaxycorecore.chattools.ChatToolsCommand;
 import net.galaxycore.galaxycorecore.chattools.ChattoolsPlayerRegisterer;
 import net.galaxycore.galaxycorecore.configuration.*;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.galaxycore.galaxycorecore.configuration.internationalisation.I18NPlayerLoader;
+import net.galaxycore.galaxycorecore.events.ServerLoadedEvent;
+import net.galaxycore.galaxycorecore.events.ServerTimePassedEvent;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
 import net.galaxycore.galaxycorecore.playerFormatting.PlayerJoinLeaveListener;
+import net.galaxycore.galaxycorecore.tabcompletion.PlayerTabCompleteListener;
 import net.galaxycore.galaxycorecore.tablist.SortTablist;
 import net.galaxycore.galaxycorecore.tpswarn.TPSWarn;
 import org.bukkit.Bukkit;
@@ -42,6 +47,9 @@ public class GalaxyCoreCore extends JavaPlugin {
     // TABLIST SORT AND NAMETAGS //
     private SortTablist sortTablist;
 
+    // BLOCK TAB COMPLETION //
+    private PlayerTabCompleteListener playerTabCompleteListener;
+
     @Override
     public void onEnable() {
         PluginManager pluginManager = Bukkit.getPluginManager();
@@ -56,12 +64,22 @@ public class GalaxyCoreCore extends JavaPlugin {
 
         coreNamespace = databaseConfiguration.getNamespace("core");
 
+        // MENU MANAGER SYSTEM //
+
+        Bukkit.getPluginManager().registerEvents(new MenuListener(), this);
+
         // I18N
 
         I18N.init(this);
+        
+        I18NPlayerLoader.setPlayerLoaderInstance(new I18NPlayerLoader());
+        Bukkit.getPluginManager().registerEvents(I18NPlayerLoader.getPlayerLoaderInstance(), this);
 
         /* Why? Because other Plugins can load their defaults in the meantime */
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this, I18N::load);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+            I18N.load();
+            Bukkit.getPluginManager().callEvent(new ServerLoadedEvent());
+        });
 
         // DEFAULT CONFIG VALUES //
         coreNamespace.setDefault("prefix", "§5Galaxy§6Core §l§8»§r§7 ");
@@ -103,6 +121,23 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "core.event.leave", "§7[§c-§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("de_DE", "core.error", "§4Es ist ein Fehler aufgetreten!");
 
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.open", "§eOpen the Chattools");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.commandfail", "§cPlease Use §e/chattools [ID]");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.msgnotfound", "§cMessage not found!");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.themessage", "§eMessage: §7");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.delete", "§eDelete Message");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.undelete", "§eUndo Deletion");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.confirm", "§eDone!");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.name", "§6ChatTools§8 «");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.copy", "§eCopy To Clipboard");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.copy.website", "Copy");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.haste", "§eSave all messages from this on");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.haste.confirm", "§aDone! Here's your link: ");
+        I18N.setDefaultByLang("en_GB", "core.chat.clear.placeholder", "%rank_color%%rank_player%§e cleared the chat.");
+        I18N.setDefaultByLang("en_GB", "core.event.join", "§7[§a+§7] %rank_prefix%%player%");
+        I18N.setDefaultByLang("en_GB", "core.event.leave", "§7[§c-§7] %rank_prefix%%player%");
+        I18N.setDefaultByLang("en_GB", "core.error", "§4Oh no! There was an internal Error!");
+
         // FORMATTING //
         chatFormatter = new ChatFormatter(this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoinLeaveListener(this), this);
@@ -121,6 +156,12 @@ public class GalaxyCoreCore extends JavaPlugin {
 
         pluginManager.registerEvents(chatFormatter, this);
         pluginManager.registerEvents(chatLog, this);
+
+        // BLOCK TAB COMPLETION //
+        playerTabCompleteListener = new PlayerTabCompleteListener(this);
+
+        // SPECIAL EVENTS //
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> Bukkit.getPluginManager().callEvent(new ServerTimePassedEvent()), 20, 5);
     }
 
     @Override

@@ -32,14 +32,14 @@ public class ChatToolsCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length < 1) {
-            PlayerUtils.sendMessage(player, I18N.getByLang("de_DE", "core.chat.tools.commandfail"));
+            PlayerUtils.sendMessage(player, I18N.getByPlayer(player, "core.chat.tools.commandfail"));
             return true;
         }
 
         ChatMessage chatMessage = galaxyCoreCore.getChatBuffer().getMessage(Integer.parseInt(args[0]));
 
         if (chatMessage == null || (!player.hasPermission("core.chat.resend.bypass.deleted") && chatMessage.isDeleted())) {
-            PlayerUtils.sendMessage(player, I18N.getByLang("de_DE", "core.chat.tools.msgnotfound"));
+            PlayerUtils.sendMessage(player, I18N.getByPlayer(player, "core.chat.tools.msgnotfound"));
             return true;
         }
 
@@ -47,7 +47,7 @@ public class ChatToolsCommand implements CommandExecutor {
             chatMessage.setDeleted(!chatMessage.isDeleted());
             galaxyCoreCore.getChatBuffer().resendChat(new ChatManager());
 
-            PlayerUtils.sendMessage(player, I18N.getByLang("de_DE", "core.chat.tools.confirm"));
+            PlayerUtils.sendMessage(player, I18N.getByPlayer(player, "core.chat.tools.confirm"));
             return true;
         }
 
@@ -72,27 +72,27 @@ public class ChatToolsCommand implements CommandExecutor {
 
             try {
                 String link = Haste.hasteMessages(bufArray);
-                PlayerUtils.sendMessage(player, I18N.getByLang("de_DE", "core.chat.tools.haste.confirm") + link);
+                PlayerUtils.sendMessage(player, I18N.getByPlayer(player, "core.chat.tools.haste.confirm") + link);
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
-                PlayerUtils.sendMessage(player, I18N.getByLang("de_DE", "core.error"));
+                PlayerUtils.sendMessage(player, I18N.getByPlayer(player, "core.error"));
                 return true;
             }
         }
 
         PlayerUtils.sendMessage(player, "===================================");
-        PlayerUtils.sendMessage(player, I18N.getByLang("de_DE", "core.chat.tools.name"));
+        PlayerUtils.sendMessage(player, I18N.getByPlayer(player, "core.chat.tools.name"));
         PlayerUtils.sendMessage(player, "");
-        PlayerUtils.sendMessage(player, I18N.getByLang("de_DE", "core.chat.tools.themessage") + chatMessage.getMessage());
+        PlayerUtils.sendMessage(player, I18N.getByPlayer(player, "core.chat.tools.themessage") + chatMessage.getMessage());
         PlayerUtils.sendMessage(player, "");
 
         if (player.hasPermission("core.chat.tools.tool.delete") && chatMessage.getElevation() <= ChatBuffer.getElevation(player)) {
-            PlayerUtils.sendMessage(player, Component.text(I18N.getByLang("de_DE", "core.chat.tools." + (chatMessage.isDeleted() ? "undelete" : "delete"))).clickEvent(ClickEvent.runCommand("/chattools " + chatMessage.getId() + " tdel")));
+            PlayerUtils.sendMessage(player, Component.text(I18N.getByPlayer(player, "core.chat.tools." + (chatMessage.isDeleted() ? "undelete" : "delete"))).clickEvent(ClickEvent.runCommand("/chattools " + chatMessage.getId() + " tdel")));
         }
 
-        PlayerUtils.sendMessage(player, Component.text(I18N.getByLang("de_DE", "core.chat.tools.haste")).clickEvent(ClickEvent.runCommand("/chattools " + chatMessage.getId() + " hastefrom")));
-        PlayerUtils.sendMessage(player, Component.text(I18N.getByLang("de_DE", "core.chat.tools.copy")).clickEvent(ClickEvent.openUrl(UrlUtils.getCpUrl(chatMessage.getMessage(), I18N.getByLang("de_DE", "core.chat.tools.copy.website")))));
+        PlayerUtils.sendMessage(player, Component.text(I18N.getByPlayer(player, "core.chat.tools.haste")).clickEvent(ClickEvent.runCommand("/chattools " + chatMessage.getId() + " hastefrom")));
+        PlayerUtils.sendMessage(player, Component.text(I18N.getByPlayer(player, "core.chat.tools.copy")).clickEvent(ClickEvent.openUrl(UrlUtils.getCpUrl(chatMessage.getMessage(), I18N.getByPlayer(player, "core.chat.tools.copy.website")))));
         PlayerUtils.sendMessage(player, "===================================");
 
         return true;

@@ -49,7 +49,7 @@ public class ChatFormatter implements Listener {
 
         TextComponent chatTools = new TextComponent("§8 [§7☰§8]");
 
-        chatTools.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(I18N.getInstanceRef().get().get("de_DE", "core.chat.tools.open"))));
+        chatTools.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(I18N.getInstanceRef().get().get(event.getPlayer(), "core.chat.tools.open"))));
         chatTools.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/chattools " + id));
 
         Bukkit.broadcast(new TextComponent(new TextComponent(event.getFormat()), chatTools));

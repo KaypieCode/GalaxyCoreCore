@@ -10,6 +10,7 @@ import net.galaxycore.galaxycorecore.chattools.ChatToolsCommand;
 import net.galaxycore.galaxycorecore.chattools.ChattoolsPlayerRegisterer;
 import net.galaxycore.galaxycorecore.configuration.*;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
+import net.galaxycore.galaxycorecore.configuration.internationalisation.I18NPlayerLoader;
 import net.galaxycore.galaxycorecore.events.ServerLoadedEvent;
 import net.galaxycore.galaxycorecore.events.ServerTimePassedEvent;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
@@ -70,6 +71,9 @@ public class GalaxyCoreCore extends JavaPlugin {
         // I18N
 
         I18N.init(this);
+        
+        I18NPlayerLoader.setPlayerLoaderInstance(new I18NPlayerLoader());
+        Bukkit.getPluginManager().registerEvents(I18NPlayerLoader.getPlayerLoaderInstance(), this);
 
         /* Why? Because other Plugins can load their defaults in the meantime */
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
@@ -116,6 +120,23 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "core.event.join", "§7[§a+§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("de_DE", "core.event.leave", "§7[§c-§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("de_DE", "core.error", "§4Es ist ein Fehler aufgetreten!");
+
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.open", "§eOpen the Chattools");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.commandfail", "§cPlease Use §e/chattools [ID]");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.msgnotfound", "§cMessage not found!");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.themessage", "§eMessage: §7");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.delete", "§eDelete Message");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.undelete", "§eUndo Deletion");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.confirm", "§eDone!");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.name", "§6ChatTools§8 «");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.copy", "§eCopy To Clipboard");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.copy.website", "Copy");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.haste", "§eSave all messages from this on");
+        I18N.setDefaultByLang("en_GB", "core.chat.tools.haste.confirm", "§aDone! Here's your link: ");
+        I18N.setDefaultByLang("en_GB", "core.chat.clear.placeholder", "%rank_color%%rank_player%§e cleared the chat.");
+        I18N.setDefaultByLang("en_GB", "core.event.join", "§7[§a+§7] %rank_prefix%%player%");
+        I18N.setDefaultByLang("en_GB", "core.event.leave", "§7[§c-§7] %rank_prefix%%player%");
+        I18N.setDefaultByLang("en_GB", "core.error", "§4Oh no! There was an internal Error!");
 
         // FORMATTING //
         chatFormatter = new ChatFormatter(this);

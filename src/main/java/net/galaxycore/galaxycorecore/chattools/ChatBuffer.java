@@ -61,8 +61,6 @@ public class ChatBuffer {
     public void resendChat(ChatManager chatManager) {
         clearChatNoPerms(chatManager);
         getRingBuffer().forEach(chatMessage -> {
-            Component component = Component.text("§8 [§7☰§8]").hoverEvent(HoverEvent.showText(Component.text(I18N.getInstanceRef().get().get("de_DE", "core.chat.tools.open")))).clickEvent(ClickEvent.runCommand("/chattools " + chatMessage.getId()));
-
             if (chatMessage.getOthertype() == OtherChatMessageTypes.I18N_PJL) {
                 PlayerJoinLeaveListener.sendPJLMessage(chatMessage, chatManager);
                 return;
@@ -76,9 +74,9 @@ public class ChatBuffer {
             }
 
             if (!chatMessage.isDeleted())
-                chatManager.sendToAllAfterId(Component.text(chatMessage.getMessage()).append(component), chatMessage.getId());
+                chatManager.sendToAllAfterIdWithExtra(Component.text(chatMessage.getMessage()), chatMessage.getId(), chatMessage.getId());
             else
-                chatManager.sendToPermissionAfterId(Component.text("§c[DELETED]§7 " + chatMessage.getMessage()).append(component), "core.chat.resend.bypass.deleted", chatMessage.getId());
+                chatManager.sendToPermissionAfterIdWithExtra(Component.text("§c[DELETED]§7 " + chatMessage.getMessage()), "core.chat.resend.bypass.deleted", chatMessage.getId(), chatMessage.getId());
         });
     }
 }

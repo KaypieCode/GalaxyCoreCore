@@ -1,4 +1,4 @@
-package net.galaxycore.galaxycorecore.tablist;
+package net.galaxycore.galaxycorecore.scoreboards;
 
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
@@ -6,8 +6,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
+import org.bukkit.scoreboard.*;
 
 import java.util.Objects;
 
@@ -19,12 +18,12 @@ public class SortTablist extends Thread {
         this.core = core;
         new SortTablist(() -> Bukkit.getScheduler().runTaskTimer(core, () -> {
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                setTablist(onlinePlayer);
+                setTablistAndScoreboard(onlinePlayer);
             }
         }, 20, 20));
     }
 
-    public void setTablist(Player player) {
+    public void setTablistAndScoreboard(Player player) {
         Scoreboard scoreboard = player.getScoreboard();
         LuckPermsApiWrapper playerPerms = new LuckPermsApiWrapper(player);
 
@@ -47,6 +46,25 @@ public class SortTablist extends Thread {
                 if(!playerTeam.hasEntry(player.getName()))
                     playerTeam.addEntry(player.getName());
             }
+
+            // Scoreboard start
+
+            Objective objective = scoreboard.getObjective("net.gc");
+            if(objective == null)
+                objective = scoreboard.registerNewObjective(
+                        "net.gc",
+                        "dummy",
+                        Component.text(ScoreBoardController.getScoreBoardCallback().getTitle(player)),
+                        RenderType.INTEGER
+                );
+            else
+                objective.displayName(Component.text(ScoreBoardController.getScoreBoardCallback().getTitle(player)));
+
+            objective.getScore(getTeam(scoreboard, String.valueOf(ChatColor.AQUA), "test", "", ChatColor.AQUA).getName()).setScore(1);
+
+            objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+            // Scoreboard end
 
             player.setScoreboard(scoreboard);
 

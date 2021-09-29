@@ -16,7 +16,7 @@ import net.galaxycore.galaxycorecore.events.ServerTimePassedEvent;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
 import net.galaxycore.galaxycorecore.playerFormatting.PlayerJoinLeaveListener;
 import net.galaxycore.galaxycorecore.tabcompletion.PlayerTabCompleteListener;
-import net.galaxycore.galaxycorecore.tablist.SortTablist;
+import net.galaxycore.galaxycorecore.scoreboards.SortTablist;
 import net.galaxycore.galaxycorecore.tpswarn.TPSWarn;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;

@@ -9,7 +9,7 @@ public interface IScoreBoardCallback {
      *
      * @param player The Player, the Scoreboard is generated for
      * @param id The number of the scoreboard entry [0,1,2,3]
-     * @return [Key, Value]
+     * @return [Key, Prefix, Suffix]
      */
     String[] getKV(Player player, int id);
 

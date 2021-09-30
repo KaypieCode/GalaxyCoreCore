@@ -60,7 +60,11 @@ public class SortTablist extends Thread {
             else
                 objective.displayName(Component.text(ScoreBoardController.getScoreBoardCallback().getTitle(player)));
 
-            objective.getScore(getTeam(scoreboard, String.valueOf(ChatColor.AQUA), "test", "", ChatColor.AQUA).getName()).setScore(1);
+
+
+            for (int i = 0; i < 16; i++) {
+                objective.getScore(getScoreboardUpdateTeam(scoreboard, ScoreBoardController.getTeamUniques().get(i), "Test" + i, "")).setScore(i);
+            }
 
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
@@ -94,6 +98,10 @@ public class SortTablist extends Thread {
 
     public Team getTeam(Scoreboard sb, String team, String prefix, String suffix) {
         return getTeam(sb, team, prefix, suffix, getLastEffectiveColor(prefix));
+    }
+
+    public Team getScoreboardUpdateTeam(Scoreboard sb, String unique, String prefix, String suffix) {
+        return getTeam(sb, unique, prefix, suffix, ChatColor.BLUE);
     }
 
     private ChatColor getLastEffectiveColor(String s) {

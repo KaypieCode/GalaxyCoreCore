@@ -43,9 +43,9 @@ public class ScoreBoardController implements IScoreBoardCallback{
     @Override
     public String[] getKV(Player player, int id) {
         String[] kv = new String[3];
-        kv[0] = "Server-Name";
-        kv[1] = "Galaxy";
-        kv[2] = "Core.net";
+        kv[0] = "Info";
+        kv[1] = "Nr.";
+        kv[2] = id + "";
         return kv;
     }
 
@@ -58,5 +58,16 @@ public class ScoreBoardController implements IScoreBoardCallback{
     @Override
     public String getTitle(Player player) {
         return "§5Galaxy§6Core";
+    }
+
+    /**
+     * Should the ScoreBoard be showed
+     *
+     * @param player The Player, the Scoreboard is generated for
+     * @return The Display Status
+     */
+    @Override
+    public boolean active(Player player) {
+        return false;
     }
 }

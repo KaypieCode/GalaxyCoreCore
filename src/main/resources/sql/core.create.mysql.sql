@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `core_bans`
 CREATE TABLE IF NOT EXISTS `core_banlog`
 (
     `id`        INTEGER AUTO_INCREMENT PRIMARY KEY,
+    `action`    VARCHAR(16),
     `userid`    INTEGER,
     `reasonid`  INTEGER,
     `from`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

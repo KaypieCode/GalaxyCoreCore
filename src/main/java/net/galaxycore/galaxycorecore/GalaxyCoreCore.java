@@ -8,6 +8,7 @@ import net.galaxycore.galaxycorecore.chattools.ChatBuffer;
 import net.galaxycore.galaxycorecore.chattools.ChatClearCommand;
 import net.galaxycore.galaxycorecore.chattools.ChatToolsCommand;
 import net.galaxycore.galaxycorecore.chattools.ChattoolsPlayerRegisterer;
+import net.galaxycore.galaxycorecore.coins.CoinCommand;
 import net.galaxycore.galaxycorecore.configuration.*;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18NPlayerLoader;
@@ -120,6 +121,13 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "core.event.join", "§7[§a+§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("de_DE", "core.event.leave", "§7[§c-§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("de_DE", "core.error", "§4Es ist ein Fehler aufgetreten!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.usage", "§cBitte nutze /coins [pay|set|add|remove|bal] [player] [amount]");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.player404", "§cDieser Spieler wurde nicht gefunden.");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.bal", "§cKontostand: %d");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.bal.others", "§c%player%'s Kontostand: %d");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.nonumber", "§cDies ist keine Zahl");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.pay.success", "§cDu hast %player% %d Coins bezahlt!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.pay.success.other", "§cDu hast von %player% %d Coins bekommen!");
 
         I18N.setDefaultByLang("en_GB", "core.chat.tools.open", "§eOpen the Chattools");
         I18N.setDefaultByLang("en_GB", "core.chat.tools.commandfail", "§cPlease Use §e/chattools [ID]");
@@ -137,6 +145,13 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "core.event.join", "§7[§a+§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("en_GB", "core.event.leave", "§7[§c-§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("en_GB", "core.error", "§4Oh no! There was an internal Error!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.usage", "§cPlease use /coins [pay|set|add|remove|bal] <playername> [amount]");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.player404", "§cThe player was not found.");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.bal", "§cCoins: %d");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.bal.others", "§c%player%'s Coins: %d");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.nonumber", "§cThis is not a number");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.pay.success", "§cYou payed %player% %d Coins!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.pay.success.other", "§cYou got %d Coins from %player%!");
 
         // FORMATTING //
         chatFormatter = new ChatFormatter(this);
@@ -162,6 +177,10 @@ public class GalaxyCoreCore extends JavaPlugin {
 
         // SPECIAL EVENTS //
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> Bukkit.getPluginManager().callEvent(new ServerTimePassedEvent()), 20, 5);
+
+        // COINS //
+        Objects.requireNonNull(getCommand("coins")).setExecutor(new CoinCommand());
+        Objects.requireNonNull(getCommand("coins")).setTabCompleter(new CoinCommand());
     }
 
     @Override

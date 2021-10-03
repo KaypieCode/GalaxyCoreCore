@@ -32,6 +32,19 @@ CREATE TABLE IF NOT EXISTS `core_bans`
     `staff`     INTEGER
 );
 
+CREATE TABLE IF NOT EXISTS `core_banlog`
+(
+    `id`        INTEGER AUTO_INCREMENT PRIMARY KEY,
+    `action`    VARCHAR(16),
+    `userid`    INTEGER,
+    `reasonid`  INTEGER,
+    `from`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `until`     TIMESTAMP,
+    `permanent` BOOLEAN DEFAULT false,
+    `staff`     INTEGER,
+    `date`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS `core_mutes`
 (
     `id`         INTEGER AUTO_INCREMENT PRIMARY KEY,

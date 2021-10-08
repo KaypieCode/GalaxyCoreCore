@@ -1,4 +1,4 @@
-package net.galaxycore.galaxycorecore.tablist;
+package net.galaxycore.galaxycorecore.scoreboards;
 
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import org.bukkit.entity.Player;

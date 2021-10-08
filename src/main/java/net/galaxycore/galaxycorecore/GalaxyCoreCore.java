@@ -16,8 +16,9 @@ import net.galaxycore.galaxycorecore.events.ServerLoadedEvent;
 import net.galaxycore.galaxycorecore.events.ServerTimePassedEvent;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
 import net.galaxycore.galaxycorecore.playerFormatting.PlayerJoinLeaveListener;
+import net.galaxycore.galaxycorecore.scoreboards.ScoreBoardController;
 import net.galaxycore.galaxycorecore.tabcompletion.PlayerTabCompleteListener;
-import net.galaxycore.galaxycorecore.tablist.SortTablist;
+import net.galaxycore.galaxycorecore.scoreboards.SortTablist;
 import net.galaxycore.galaxycorecore.tpswarn.TPSWarn;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -166,7 +167,9 @@ public class GalaxyCoreCore extends JavaPlugin {
         coreNamespace.setDefault("tpswarn.webhook_url", "https://discord.com/api/webhooks/882263428591419442/eTztbTcJ5TvZMJJhLC5Q__dTqwLHe91ryfL5TGdmOhdNRj_j47N4GMeMwIguM15syQ1M");
         coreNamespace.setDefault("tpswarn.minimal_allowed_tps", "15");
 
-        // TABLIST SORT AND NAMETAGS //
+        // TABLIST SORT AND NAMETAGS AND SCOREBOAD //
+        ScoreBoardController.setScoreBoardCallback(new ScoreBoardController());
+
         sortTablist = new SortTablist(this);
 
         pluginManager.registerEvents(chatFormatter, this);

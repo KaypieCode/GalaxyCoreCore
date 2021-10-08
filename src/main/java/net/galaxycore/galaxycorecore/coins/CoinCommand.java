@@ -40,24 +40,24 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             Player player = Bukkit.getPlayer(args[0]);
             return sendBal(sender, player);
         }
 
-        if(args.length == 2 && args[0].equalsIgnoreCase("bal")){
+        if (args.length == 2 && args[0].equalsIgnoreCase("bal")) {
             Player player = Bukkit.getPlayer(args[1]);
             return sendBal(sender, player);
         }
 
-        if(args.length == 3) {
-            if(args[0].equalsIgnoreCase("pay")){
+        if (args.length == 3) {
+            if (args[0].equalsIgnoreCase("pay")) {
                 CoinDAO daoOther = resolvePlayer(args, sender);
-                if(daoOther == null) return true;
+                if (daoOther == null) return true;
 
                 try {
                     Long.parseLong(args[2]);
-                }catch (NumberFormatException ignored) {
+                } catch (NumberFormatException ignored) {
                     sender.sendMessage(I18N.getByPlayer(((Player) sender), "core.command.coins.nonumber"));
                     return true;
                 }
@@ -73,25 +73,70 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-            if(args[0].equalsIgnoreCase("set")){
+            if (args[0].equalsIgnoreCase("set")) {
+                CoinDAO daoOther = resolvePlayer(args, sender);
+                if (daoOther == null) return true;
 
+                try {
+                    Long.parseLong(args[2]);
+                } catch (NumberFormatException ignored) {
+                    sender.sendMessage(I18N.getByPlayer(((Player) sender), "core.command.coins.nonumber"));
+                    return true;
+                }
+
+                long transaction = Math.abs(Long.parseLong(args[2])) - daoOther.get();
+
+                daoOther.transact(null, transaction, "coins_set::" + sender.getName());
+
+                sender.sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(((Player) sender), "core.command.coins.set.success"), new LuckPermsApiWrapper(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())))), daoOther.get()));
+                Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())).sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())), "core.command.coins.set.success.other"), new LuckPermsApiWrapper(((Player) sender))), daoOther.get()));
+                return true;
             }
 
-            if(args[0].equalsIgnoreCase("add")){
-
+            if (args[0].equalsIgnoreCase("add")) {
+                if (transactImmutable(sender, args, false, "add")) return true;
             }
 
-            if(args[0].equalsIgnoreCase("remove")){
-
+            if (args[0].equalsIgnoreCase("remove")) {
+                if (transactImmutable(sender, args, true, "remove")) return true;
             }
+        }
+
+        if (args.length > 3) {
+            sender.sendMessage(I18N.getByPlayer(((Player) sender), "core.command.coins.usage"));
         }
 
         return true;
     }
 
+    private boolean transactImmutable(@NotNull CommandSender sender, @NotNull String[] args, boolean doNegate, String type) {
+        CoinDAO daoOther = resolvePlayer(args, sender);
+        if (daoOther == null) return true;
+
+        try {
+            Long.parseLong(args[2]);
+        } catch (NumberFormatException ignored) {
+            sender.sendMessage(I18N.getByPlayer(((Player) sender), "core.command.coins.nonumber"));
+            return true;
+        }
+
+        long transaction;
+
+        if (doNegate)
+            transaction = -Math.abs(Long.parseLong(args[2]));
+        else
+            transaction = Math.abs(Long.parseLong(args[2]));
+
+        daoOther.transact(null, transaction, "coins_" + type + "::" + sender.getName());
+
+        sender.sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(((Player) sender), "core.command.coins." + type + ".success"), new LuckPermsApiWrapper(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())))), daoOther.get()));
+        Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())).sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())), "core.command.coins." + type + ".success.other"), new LuckPermsApiWrapper(((Player) sender))), daoOther.get()));
+        return true;
+    }
+
     private CoinDAO resolvePlayer(String[] args, CommandSender sender) {
         Player player = Bukkit.getPlayer(args[1]);
-        if(player != null) {
+        if (player != null) {
             return new CoinDAO(PlayerLoader.load(player), CoreProvider.getCore());
         }
         sender.sendMessage(I18N.getByPlayer(((Player) sender), "core.command.coins.player404"));
@@ -99,7 +144,7 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
     }
 
     private boolean sendBal(@NotNull CommandSender sender, Player player) {
-        if(player != null) {
+        if (player != null) {
             CoinDAO coinDAO = new CoinDAO(PlayerLoader.load(player), CoreProvider.getCore());
             sender.sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(((Player) sender), "core.command.coins.bal.others"), new LuckPermsApiWrapper(player)), coinDAO.get()));
             return true;
@@ -128,18 +173,19 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
         ArrayList<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            if (sender.hasPermission("core.command.coins.pay")    && "pay"   .contains(args[0])) completions.add("pay");
-            if (sender.hasPermission("core.command.coins.set")    && "set"   .contains(args[0])) completions.add("set");
-            if (sender.hasPermission("core.command.coins.add")    && "add"   .contains(args[0])) completions.add("add");
-            if (sender.hasPermission("core.command.coins.remove") && "remove".contains(args[0])) completions.add("remove");
-            if (sender.hasPermission("core.command.coins.bal")    && "bal"   .contains(args[0])) completions.add("bal");
+            if (sender.hasPermission("core.command.coins.pay") && "pay".contains(args[0])) completions.add("pay");
+            if (sender.hasPermission("core.command.coins.set") && "set".contains(args[0])) completions.add("set");
+            if (sender.hasPermission("core.command.coins.add") && "add".contains(args[0])) completions.add("add");
+            if (sender.hasPermission("core.command.coins.remove") && "remove".contains(args[0]))
+                completions.add("remove");
+            if (sender.hasPermission("core.command.coins.bal") && "bal".contains(args[0])) completions.add("bal");
         } else if (args.length == 2) {
             if (
-                    (sender.hasPermission("core.command.coins.pay")    && args[0].equalsIgnoreCase("pay")) ||
-                    (sender.hasPermission("core.command.coins.set")    && args[0].equalsIgnoreCase("set")) ||
-                    (sender.hasPermission("core.command.coins.add")    && args[0].equalsIgnoreCase("add")) ||
-                    (sender.hasPermission("core.command.coins.remove") && args[0].equalsIgnoreCase("remove")) ||
-                    (sender.hasPermission("core.command.coins.bal")    && args[0].equalsIgnoreCase("bal"))
+                    (sender.hasPermission("core.command.coins.pay") && args[0].equalsIgnoreCase("pay")) ||
+                            (sender.hasPermission("core.command.coins.set") && args[0].equalsIgnoreCase("set")) ||
+                            (sender.hasPermission("core.command.coins.add") && args[0].equalsIgnoreCase("add")) ||
+                            (sender.hasPermission("core.command.coins.remove") && args[0].equalsIgnoreCase("remove")) ||
+                            (sender.hasPermission("core.command.coins.bal") && args[0].equalsIgnoreCase("bal"))
             ) {
                 Bukkit.getOnlinePlayers().forEach(player -> completions.add(player.getName()));
             }

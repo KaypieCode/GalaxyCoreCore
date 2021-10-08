@@ -129,6 +129,12 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "core.command.coins.nonumber", "§cDies ist keine Zahl");
         I18N.setDefaultByLang("de_DE", "core.command.coins.pay.success", "§cDu hast %player% %d Coins bezahlt!");
         I18N.setDefaultByLang("de_DE", "core.command.coins.pay.success.other", "§cDu hast von %player% %d Coins bekommen!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.set.success", "§cDu hast %player% %d Coins gegeben!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.set.success.other", "§cDu hast nun %d Coins!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.add.success", "§cDu hast %player% %d Coins gegeben!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.add.success.other", "§cDu hast %d Coins bekommen!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.remove.success", "§cDu hast %player% %d Coins entfernt!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.remove.success.other", "§cDu hast %d Coins abgezogen bekommen!");
 
         I18N.setDefaultByLang("en_GB", "core.chat.tools.open", "§eOpen the Chattools");
         I18N.setDefaultByLang("en_GB", "core.chat.tools.commandfail", "§cPlease Use §e/chattools [ID]");
@@ -153,6 +159,12 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "core.command.coins.nonumber", "§cThis is not a number");
         I18N.setDefaultByLang("en_GB", "core.command.coins.pay.success", "§cYou payed %player% %d Coins!");
         I18N.setDefaultByLang("en_GB", "core.command.coins.pay.success.other", "§cYou got %d Coins from %player%!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.set.success", "§cYou set %player%'s Coins to %d!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.set.success.other", "§cYou have not %d Coins!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.add.success", "§cYou set %player%'s Coins to %d!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.add.success.other", "§cYou got %d Coins added!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.remove.success", "§cYou removed %player% %d Coins!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.remove.success.other", "§cYou got %d Coins removed!");
 
         // FORMATTING //
         chatFormatter = new ChatFormatter(this);

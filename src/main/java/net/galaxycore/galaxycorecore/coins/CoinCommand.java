@@ -84,7 +84,7 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                long transaction = Math.abs(Long.parseLong(args[2])) - daoOther.get();
+                long transaction = -(Math.abs(Long.parseLong(args[2])) - daoOther.get());
 
                 daoOther.transact(null, transaction, "coins_set::" + sender.getName());
 
@@ -94,11 +94,11 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
             }
 
             if (args[0].equalsIgnoreCase("add")) {
-                if (transactImmutable(sender, args, false, "add")) return true;
+                if (transactImmutable(sender, args, true, "add")) return true;
             }
 
             if (args[0].equalsIgnoreCase("remove")) {
-                if (transactImmutable(sender, args, true, "remove")) return true;
+                if (transactImmutable(sender, args, false, "remove")) return true;
             }
         }
 

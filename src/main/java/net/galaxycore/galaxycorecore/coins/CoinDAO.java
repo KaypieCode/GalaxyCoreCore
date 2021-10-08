@@ -29,6 +29,7 @@ public class CoinDAO {
         if (get() - playerAccountChange < 0)
             throw new PlayerTransactionError();
 
+        if(transactionPartner != null)
         if (new CoinDAO(transactionPartner, plugin).get() + playerAccountChange < 0)
             throw new PartnerTransactionError();
 

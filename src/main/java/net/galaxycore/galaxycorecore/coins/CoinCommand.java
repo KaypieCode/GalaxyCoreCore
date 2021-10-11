@@ -5,6 +5,7 @@ import net.galaxycore.galaxycorecore.configuration.PlayerLoader;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.permissions.LuckPermsApiWrapper;
 import net.galaxycore.galaxycorecore.utils.StringUtils;
+import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -85,6 +86,7 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
             }
 
             if (args[0].equalsIgnoreCase("set")) {
+                if(assertPermission(sender, "core.command.coins.set")) return true;
                 CoinDAO daoOther = resolvePlayer(args, sender);
                 if (daoOther == null) return true;
 
@@ -123,8 +125,9 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
     private boolean assertPermission(CommandSender sender, String permission) {
         if(!sender.hasPermission(permission)){
             sender.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(((Player) sender), "core.nopermissions"), new LuckPermsApiWrapper((Player) sender)));
+            return true;
         }
-        return true;
+        return false;
     }
 
     private boolean transactImmutable(@NotNull CommandSender sender, @NotNull String[] args, boolean doNegate, String type) {

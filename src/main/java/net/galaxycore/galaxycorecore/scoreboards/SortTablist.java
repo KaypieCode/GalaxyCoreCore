@@ -26,7 +26,7 @@ public class SortTablist extends Thread {
     }
 
     public void setTablistAndScoreboard(Player player) {
-        Scoreboard scoreboard = player.getScoreboard();
+        Scoreboard scoreboard = player.getScoreboard() == Bukkit.getScoreboardManager().getMainScoreboard() ? Bukkit.getScoreboardManager().getNewScoreboard() : player.getScoreboard();
         LuckPermsApiWrapper playerPerms = new LuckPermsApiWrapper(player);
 
         Bukkit.getScheduler().runTaskAsynchronously(core, () -> {

@@ -23,4 +23,12 @@ commands:
       - eco
       - economy
 
-  fly:
+  bal:
+    description: Get a Player's Balance
+    usage: /bal <player>
+    aliases:
+      - balance
+
+  pay:
+    description: Pay
+    usage: /pay <player> <amount>

@@ -21,7 +21,7 @@ import java.util.Objects;
 public class CoinCommand implements CommandExecutor, TabCompleter {
     /**
      * Executes the given command, returning its success.
-     * /coins [pay|set|add|remove|bal]
+     * /coins [pay|set|add|remove|bal|<playername>]
      * <br>
      * If false is returned, then the "usage" plugin.yml entry for this command
      * (if defined) will be sent to the player.
@@ -35,23 +35,27 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
+            if(assertPermission(sender, "core.command.coins.bal.self")) return true;
             CoinDAO coinDAO = new CoinDAO(PlayerLoader.load((Player) sender), CoreProvider.getCore());
             sender.sendMessage(String.format(I18N.getByPlayer(((Player) sender), "core.command.coins.bal"), coinDAO.get()));
             return true;
         }
 
         if (args.length == 1) {
+            if(assertPermission(sender, "core.command.coins.bal.others")) return true;
             Player player = Bukkit.getPlayer(args[0]);
             return sendBal(sender, player);
         }
 
         if (args.length == 2 && args[0].equalsIgnoreCase("bal")) {
+            if(assertPermission(sender, "core.command.coins.bal.others")) return true;
             Player player = Bukkit.getPlayer(args[1]);
             return sendBal(sender, player);
         }
 
         if (args.length == 3) {
             if (args[0].equalsIgnoreCase("pay")) {
+                if(assertPermission(sender, "core.command.coins.pay")) return true;
                 CoinDAO daoOther = resolvePlayer(args, sender);
                 if (daoOther == null) return true;
 
@@ -65,7 +69,14 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
                 long transaction = Math.abs(Long.parseLong(args[2]));
 
                 CoinDAO coinDAO = new CoinDAO(PlayerLoader.load((Player) sender), CoreProvider.getCore());
-                coinDAO.transact(daoOther.getPlayer(), transaction, "coins_pay");
+
+                try {
+                    coinDAO.transact(daoOther.getPlayer(), transaction, "coins_pay");
+                } catch (PlayerTransactionError ignored) {
+                    sender.sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(((Player) sender), "core.command.coins.notenoughcoins"), new LuckPermsApiWrapper(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())))), transaction));
+                } catch (PartnerTransactionError ignored) {
+                    sender.sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(((Player) sender), "core.command.coins.notenoughcoins.other"), new LuckPermsApiWrapper(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())))), transaction));
+                }
 
                 sender.sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(((Player) sender), "core.command.coins.pay.success"), new LuckPermsApiWrapper(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())))), transaction));
                 Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())).sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())), "core.command.coins.pay.success.other"), new LuckPermsApiWrapper(((Player) sender))), transaction));
@@ -109,6 +120,13 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
+    private boolean assertPermission(CommandSender sender, String permission) {
+        if(!sender.hasPermission(permission)){
+            sender.sendMessage(StringUtils.replaceRelevant(I18N.getByPlayer(((Player) sender), "core.nopermissions"), new LuckPermsApiWrapper((Player) sender)));
+        }
+        return true;
+    }
+
     private boolean transactImmutable(@NotNull CommandSender sender, @NotNull String[] args, boolean doNegate, String type) {
         CoinDAO daoOther = resolvePlayer(args, sender);
         if (daoOther == null) return true;
@@ -127,7 +145,13 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
         else
             transaction = Math.abs(Long.parseLong(args[2]));
 
-        daoOther.transact(null, transaction, "coins_" + type + "::" + sender.getName());
+        try {
+            daoOther.transact(null, transaction, "coins_" + type + "::" + sender.getName());
+        } catch (PlayerTransactionError ignored) {
+            sender.sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(((Player) sender), "core.command.coins.notenoughcoins"), new LuckPermsApiWrapper(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())))), transaction));
+        } catch (PartnerTransactionError ignored) {
+            sender.sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(((Player) sender), "core.command.coins.notenoughcoins.other"), new LuckPermsApiWrapper(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())))), transaction));
+        }
 
         sender.sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(((Player) sender), "core.command.coins." + type + ".success"), new LuckPermsApiWrapper(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())))), daoOther.get()));
         Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())).sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())), "core.command.coins." + type + ".success.other"), new LuckPermsApiWrapper(((Player) sender))), daoOther.get()));
@@ -159,7 +183,7 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
      * Requests a list of possible completions for a command argument.
      *
      * @param sender  Source of the command.  For players tab-completing a
-     *                command inside of a command block, this will be the player, not
+     *                command inside a command block, this will be the player, not
      *                the command block.
      * @param command Command which was executed
      * @param alias   The alias used
@@ -176,8 +200,7 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
             if (sender.hasPermission("core.command.coins.pay") && "pay".contains(args[0])) completions.add("pay");
             if (sender.hasPermission("core.command.coins.set") && "set".contains(args[0])) completions.add("set");
             if (sender.hasPermission("core.command.coins.add") && "add".contains(args[0])) completions.add("add");
-            if (sender.hasPermission("core.command.coins.remove") && "remove".contains(args[0]))
-                completions.add("remove");
+            if (sender.hasPermission("core.command.coins.remove") && "remove".contains(args[0])) completions.add("remove");
             if (sender.hasPermission("core.command.coins.bal") && "bal".contains(args[0])) completions.add("bal");
         } else if (args.length == 2) {
             if (

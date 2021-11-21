@@ -8,6 +8,8 @@ import net.galaxycore.galaxycorecore.chattools.ChatBuffer;
 import net.galaxycore.galaxycorecore.chattools.ChatClearCommand;
 import net.galaxycore.galaxycorecore.chattools.ChatToolsCommand;
 import net.galaxycore.galaxycorecore.chattools.ChattoolsPlayerRegisterer;
+import net.galaxycore.galaxycorecore.coins.CoinAliasCommand;
+import net.galaxycore.galaxycorecore.coins.CoinCommand;
 import net.galaxycore.galaxycorecore.configuration.*;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18NPlayerLoader;
@@ -121,6 +123,24 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "core.event.join", "§7[§a+§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("de_DE", "core.event.leave", "§7[§c-§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("de_DE", "core.error", "§4Es ist ein Fehler aufgetreten!");
+        I18N.setDefaultByLang("de_DE", "core.nopermissions", "§4Hierfür hast du keine Rechte!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.usage", "§cBitte nutze /coins [pay|set|add|remove|bal] [player] [amount]");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.player404", "§cDieser Spieler wurde nicht gefunden.");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.bal", "§cKontostand: %d");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.bal.others", "§c%player%'s Kontostand: %d");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.bal.usage", "§cBitte verwende /bal <player>");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.nonumber", "§cDies ist keine Zahl");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.notenoughcoins", "§cDu hast nicht genügend Coins");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.notenoughcoins.other", "§cDieser Spieler hat nicht genügend Coins");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.pay.success", "§cDu hast %player% %d Coins bezahlt!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.pay.success.other", "§cDu hast von %player% %d Coins bekommen!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.pay.usage", "§cBitte verwende /pay <player> <amount>");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.set.success", "§cDu hast %player% %d Coins gegeben!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.set.success.other", "§cDu hast nun %d Coins!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.add.success", "§cDu hast %player% %d Coins gegeben!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.add.success.other", "§cDu hast %d Coins bekommen!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.remove.success", "§cDu hast %player% %d Coins entfernt!");
+        I18N.setDefaultByLang("de_DE", "core.command.coins.remove.success.other", "§cDu hast %d Coins abgezogen bekommen!");
 
         I18N.setDefaultByLang("en_GB", "core.chat.tools.open", "§eOpen the Chattools");
         I18N.setDefaultByLang("en_GB", "core.chat.tools.commandfail", "§cPlease Use §e/chattools [ID]");
@@ -138,6 +158,24 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "core.event.join", "§7[§a+§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("en_GB", "core.event.leave", "§7[§c-§7] %rank_prefix%%player%");
         I18N.setDefaultByLang("en_GB", "core.error", "§4Oh no! There was an internal Error!");
+        I18N.setDefaultByLang("en_GB", "core.nopermissions", "§4You don't have Permissions to use this!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.usage", "§cPlease use /coins [pay|set|add|remove|bal] <playername> [amount]");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.player404", "§cThe player was not found.");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.bal", "§cCoins: %d");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.bal.others", "§c%player%'s Coins: %d");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.bal.usage", "§cPlease use /bal <player>");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.nonumber", "§cThis is not a number");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.notenoughcoins", "§cYou don't have enough Coins");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.notenoughcoins.other", "§cThis player doesn't have enough Coins");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.pay.success", "§cYou payed %player% %d Coins!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.pay.success.other", "§cYou got %d Coins from %player%!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.pay.usage", "§cPlease use /pay <player> <amount>");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.set.success", "§cYou set %player%'s Coins to %d!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.set.success.other", "§cYou have not %d Coins!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.add.success", "§cYou set %player%'s Coins to %d!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.add.success.other", "§cYou got %d Coins added!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.remove.success", "§cYou removed %player% %d Coins!");
+        I18N.setDefaultByLang("en_GB", "core.command.coins.remove.success.other", "§cYou got %d Coins removed!");
 
         // FORMATTING //
         chatFormatter = new ChatFormatter(this);
@@ -165,6 +203,16 @@ public class GalaxyCoreCore extends JavaPlugin {
 
         // SPECIAL EVENTS //
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> Bukkit.getPluginManager().callEvent(new ServerTimePassedEvent()), 20, 5);
+
+        // COINS //
+        Objects.requireNonNull(getCommand("coins")).setExecutor     (new CoinCommand()     );
+        Objects.requireNonNull(getCommand("coins")).setTabCompleter (new CoinCommand()     );
+
+        Objects.requireNonNull(getCommand("bal"))  .setTabCompleter (new CoinAliasCommand());
+        Objects.requireNonNull(getCommand("bal"))  .setExecutor     (new CoinAliasCommand());
+
+        Objects.requireNonNull(getCommand("pay"))  .setTabCompleter (new CoinAliasCommand());
+        Objects.requireNonNull(getCommand("pay"))  .setExecutor     (new CoinAliasCommand());
     }
 
     @Override

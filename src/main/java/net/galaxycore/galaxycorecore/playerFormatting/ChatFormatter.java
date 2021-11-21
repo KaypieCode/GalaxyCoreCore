@@ -86,10 +86,12 @@ public class ChatFormatter implements Listener {
             message = message.replace("&r", "§r");
         }
 
+        message = message.replace("%", "⁒");
+
         String format = configNamespace.get("chat.format");
         format = StringUtils.replaceRelevant(format, permissionsApiWrapper);
         format = ChatColor.translateAlternateColorCodes('&', format);
-        format = format + message + "§f";
+        format = format + message + " §f";
 
         event.setMessage(message);
         event.setFormat(format);

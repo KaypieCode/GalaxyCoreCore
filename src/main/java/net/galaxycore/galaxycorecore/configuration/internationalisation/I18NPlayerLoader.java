@@ -57,7 +57,6 @@ public class I18NPlayerLoader implements Listener {
                 if(loadResult.getInt("language_id") == minecraftLocale.getId()){
                     lang.set(s);
                 }
-                System.out.println(s);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

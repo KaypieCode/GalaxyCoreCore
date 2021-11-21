@@ -15,3 +15,20 @@ commands:
   cc:
     description: Clears the Chat
     usage: /cc
+
+  coins:
+    description: Manage the Coin System
+    usage: /coins [pay|set|add|remove|bal]
+    aliases:
+      - eco
+      - economy
+
+  bal:
+    description: Get a Player's Balance
+    usage: /bal <player>
+    aliases:
+      - balance
+
+  pay:
+    description: Pay
+    usage: /pay <player> <amount>

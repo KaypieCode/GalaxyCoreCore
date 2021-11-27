@@ -2,7 +2,9 @@ package net.galaxycore.galaxycorecore.configuration.internationalisation;
 
 import lombok.Getter;
 import net.galaxycore.galaxycorecore.GalaxyCoreCore;
+import net.galaxycore.galaxycorecore.apiutils.CoreProvider;
 import net.galaxycore.galaxycorecore.configuration.DatabaseConfiguration;
+import net.galaxycore.galaxycorecore.configuration.PrefixProvider;
 import net.galaxycore.galaxycorecore.utils.FileUtils;
 import net.galaxycore.galaxycorecore.utils.SqlUtils;
 import org.bukkit.entity.Player;
@@ -17,6 +19,7 @@ public class I18N implements II18NPort {
     @Getter
     private static final I18NProvider instanceRef = new I18NProvider();
 
+    private final HashMap<String, Boolean> usePrefix = new HashMap<>();
     private final DatabaseConfiguration databaseConfiguration;
 
     @Getter
@@ -73,6 +76,11 @@ public class I18N implements II18NPort {
         instanceRef.get().setDefault(lang, key, value);
     }
 
+    public static void setDefaultByLang(String lang, String key, String value, boolean usePrefix) {
+        instanceRef.get().setDefault(lang, key, value, usePrefix);
+    }
+
+    @SuppressWarnings("unused") /*API*/
     public static String getByLang(String lang, String key) {
         return instanceRef.get().get(lang, key);
     }
@@ -82,7 +90,7 @@ public class I18N implements II18NPort {
     }
 
     public String get(String lang, String key) {
-        return language_data.get(languages.get(lang)).get(key);
+        return (usePrefix.getOrDefault(key, false) ? PrefixProvider.getPrefix() : "") + language_data.get(languages.get(lang)).get(key);
     }
 
     public String get(Player player, String key) {
@@ -92,6 +100,12 @@ public class I18N implements II18NPort {
     @Override
     public String getLocale(Player player) {
         return I18NPlayerLoader.getLocale(player);
+    }
+
+    @Override
+    public void setDefault(String lang, String key, String value, boolean usePrefix) {
+        this.usePrefix.put(key, usePrefix);
+        setDefault(lang, key, value);
     }
 
     public void setDefault(String lang, String key, String value) {

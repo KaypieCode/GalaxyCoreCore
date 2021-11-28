@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 public interface II18NPort {
+    void setDefault(String lang, String key, String value, boolean usePrefix);
     void setDefault(String lang, String key, String value);
     String get(String lang, String key);
     String get(Player player, String key);

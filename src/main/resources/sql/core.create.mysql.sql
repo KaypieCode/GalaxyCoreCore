@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS `core_reports`
     `id`       INTEGER AUTO_INCREMENT PRIMARY KEY,
     `reported` INTEGER   NOT NULL,
     `reporter` INTEGER,
+    `reason` VARCHAR(255) NOT NULL,
     `date`     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `resolved` BOOLEAN   NOT NULL DEFAULT false,
     `staff`    INT

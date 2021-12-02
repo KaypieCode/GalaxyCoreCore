@@ -155,8 +155,8 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(((Player) sender), "core.command.coins.notenoughcoins.other"), new LuckPermsApiWrapper(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())))), transaction));
         }
 
-        sender.sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(((Player) sender), "core.command.coins." + type + ".success"), new LuckPermsApiWrapper(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())))), true ? Math.abs(transaction): daoOther.get()));
-        Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())).sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())), "core.command.coins." + type + ".success.other"), new LuckPermsApiWrapper(((Player) sender))), true ? Math.abs(transaction): daoOther.get()));
+        sender.sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(((Player) sender), "core.command.coins." + type + ".success"), new LuckPermsApiWrapper(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())))), Math.abs(transaction)));
+        Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())).sendMessage(String.format(StringUtils.replaceRelevant(I18N.getByPlayer(Objects.requireNonNull(Bukkit.getPlayer(daoOther.getPlayer().getUuid())), "core.command.coins." + type + ".success.other"), new LuckPermsApiWrapper(((Player) sender))), Math.abs(transaction)));
         return true;
     }
 

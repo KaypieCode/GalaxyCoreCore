@@ -2,7 +2,7 @@
     <servers>
         <server>
             <id>galaxycore</id>
-            <username>developer</username>
+            <username>admin</username>
             <password>${env.NRM_PW}</password>
         </server>
     </servers>

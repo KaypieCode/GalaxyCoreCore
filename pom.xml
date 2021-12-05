@@ -82,8 +82,8 @@
             <url>https://repo.cloudnetservice.eu/repository/releases/</url>
         </repository>
         <repository>
-            <id>galaxycore-public</id>
-            <url>https://nrm.galaxycore.net/repository/public/</url>
+            <id>galaxycore</id>
+            <url>https://nrm.galaxycore.net/repository/galaxycore/</url>
         </repository>
     </repositories>
 

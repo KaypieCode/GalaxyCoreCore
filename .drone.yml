@@ -6,8 +6,8 @@ steps:
   - name: test'n'deploy
     image: maven:3-jdk-11
     environment:
-      NRM_PW: $NEXUS_DEV_PWD
-      NRM_UR: $NEXUS_DEV_USER
+      NRM_PW:
+        from_secret: NEXUS_DEV_PWD
     commands:
       - mvn install -DskipTests=true -B -V -s workflow_settings.xml
       - mvn test -B -s workflow_settings.xml
@@ -27,8 +27,8 @@ steps:
   - name: test
     image: maven:3-jdk-11
     environment:
-      NRM_PW: $NEXUS_DEV_PWD
-      NRM_UR: $NEXUS_DEV_USER
+      NRM_PW:
+        from_secret: NEXUS_DEV_PWD
     commands:
       - mvn install -DskipTests=true -B -V -s workflow_settings.xml
       - mvn test -B -s workflow_settings.xml

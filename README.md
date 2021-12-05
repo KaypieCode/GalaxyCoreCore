@@ -1,3 +1,6 @@
 # GalaxyCoreCore
 
-[![Quality Gate Status](https://sonar.galaxycore.net/api/project_badges/measure?project=GalaxyCore-net_GalaxyCoreCore&metric=alert_status)](https://sonar.galaxycore.net/dashboard?id=GalaxyCore-net_GalaxyCoreCore)
+Dev: [![Build Status MASTER](https://ci.galaxycore.net/api/badges/GalaxyCore-net/GalaxyCoreCore/status.svg)](https://ci.galaxycore.net/GalaxyCore-net/GalaxyCoreCore)
+
+
+Master: [![Build Status DEV](https://ci.galaxycore.net/api/badges/GalaxyCore-net/GalaxyCoreCore/status.svg?ref=refs/heads/dev)](https://ci.galaxycore.net/GalaxyCore-net/GalaxyCoreCore)

@@ -14,6 +14,7 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.projectKey>GalaxyCore-net_GalaxyCoreCore</sonar.projectKey>
     </properties>
 
     <build>
@@ -81,8 +82,8 @@
             <url>https://repo.cloudnetservice.eu/repository/releases/</url>
         </repository>
         <repository>
-            <id>galaxycore-public</id>
-            <url>https://nrm.galaxycore.net/repository/public/</url>
+            <id>galaxycore</id>
+            <url>https://nrm.galaxycore.net/repository/galaxycore/</url>
         </repository>
     </repositories>
 

@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `core_banlog`
     `id`        INTEGER AUTO_INCREMENT PRIMARY KEY,
     `action`    VARCHAR(16),
     `userid`    INTEGER,
-    `reasonid`  INTEGER,
+    `reason`  INTEGER,
     `from`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `until`     TIMESTAMP,
     `permanent` BOOLEAN DEFAULT false,
@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS `core_reports`
     `id`       INTEGER AUTO_INCREMENT PRIMARY KEY,
     `reported` INTEGER   NOT NULL,
     `reporter` INTEGER,
+    `reason` VARCHAR(255) NOT NULL,
     `date`     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `resolved` BOOLEAN   NOT NULL DEFAULT false,
     `staff`    INT

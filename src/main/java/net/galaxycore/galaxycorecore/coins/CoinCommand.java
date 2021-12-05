@@ -106,10 +106,12 @@ public class CoinCommand implements CommandExecutor, TabCompleter {
             }
 
             if (args[0].equalsIgnoreCase("add")) {
+                if(assertPermission(sender, "core.command.coins.add")) return true;
                 if (transactImmutable(sender, args, true, "add")) return true;
             }
 
             if (args[0].equalsIgnoreCase("remove")) {
+                if(assertPermission(sender, "core.command.coins.remove")) return true;
                 if (transactImmutable(sender, args, false, "remove")) return true;
             }
         }

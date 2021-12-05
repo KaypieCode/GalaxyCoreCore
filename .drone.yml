@@ -3,7 +3,7 @@ name: DroneCoreCoreMaster
 type: docker
 
 steps:
-  - name: test
+  - name: test'n'deploy
     image: maven:3-jdk-11
     environment:
       NRM_PW: $NEXUS_DEV_PWD

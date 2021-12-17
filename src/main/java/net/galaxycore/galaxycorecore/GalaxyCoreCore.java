@@ -15,6 +15,7 @@ import net.galaxycore.galaxycorecore.configuration.internationalisation.I18N;
 import net.galaxycore.galaxycorecore.configuration.internationalisation.I18NPlayerLoader;
 import net.galaxycore.galaxycorecore.events.ServerLoadedEvent;
 import net.galaxycore.galaxycorecore.events.ServerTimePassedEvent;
+import net.galaxycore.galaxycorecore.onlinetime.OnlineTime;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
 import net.galaxycore.galaxycorecore.playerFormatting.PlayerJoinLeaveListener;
 import net.galaxycore.galaxycorecore.scoreboards.ScoreBoardController;
@@ -52,6 +53,9 @@ public class GalaxyCoreCore extends JavaPlugin {
 
     // BLOCK TAB COMPLETION //
     private PlayerTabCompleteListener playerTabCompleteListener;
+
+    // ONLINE TIME //
+    private OnlineTime onlineTime;
 
     @Override
     public void onEnable() {
@@ -205,14 +209,18 @@ public class GalaxyCoreCore extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> Bukkit.getPluginManager().callEvent(new ServerTimePassedEvent()), 20, 5);
 
         // COINS //
-        Objects.requireNonNull(getCommand("coins")).setExecutor     (new CoinCommand()     );
-        Objects.requireNonNull(getCommand("coins")).setTabCompleter (new CoinCommand()     );
+        Objects.requireNonNull(getCommand("coins")).setExecutor(new CoinCommand());
+        Objects.requireNonNull(getCommand("coins")).setTabCompleter(new CoinCommand());
 
-        Objects.requireNonNull(getCommand("bal"))  .setTabCompleter (new CoinAliasCommand());
-        Objects.requireNonNull(getCommand("bal"))  .setExecutor     (new CoinAliasCommand());
+        Objects.requireNonNull(getCommand("bal")).setTabCompleter(new CoinAliasCommand());
+        Objects.requireNonNull(getCommand("bal")).setExecutor(new CoinAliasCommand());
 
-        Objects.requireNonNull(getCommand("pay"))  .setTabCompleter (new CoinAliasCommand());
-        Objects.requireNonNull(getCommand("pay"))  .setExecutor     (new CoinAliasCommand());
+        Objects.requireNonNull(getCommand("pay")).setTabCompleter(new CoinAliasCommand());
+        Objects.requireNonNull(getCommand("pay")).setExecutor(new CoinAliasCommand());
+
+        // ONLINE TIME //
+        this.onlineTime = new OnlineTime(0, 0);
+        pluginManager.registerEvents(this.onlineTime, this);
     }
 
     @Override

@@ -19,6 +19,7 @@ import net.galaxycore.galaxycorecore.onlinetime.OnlineTime;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
 import net.galaxycore.galaxycorecore.playerFormatting.PlayerJoinLeaveListener;
 import net.galaxycore.galaxycorecore.scoreboards.ScoreBoardController;
+import net.galaxycore.galaxycorecore.spice.KMenuListener;
 import net.galaxycore.galaxycorecore.tabcompletion.PlayerTabCompleteListener;
 import net.galaxycore.galaxycorecore.scoreboards.SortTablist;
 import net.galaxycore.galaxycorecore.tpswarn.TPSWarn;
@@ -221,6 +222,9 @@ public class GalaxyCoreCore extends JavaPlugin {
         // ONLINE TIME //
         this.onlineTime = new OnlineTime(0, 0);
         pluginManager.registerEvents(this.onlineTime, this);
+
+        // KMenu //
+        Bukkit.getPluginManager().registerEvents(new KMenuListener(), this);
     }
 
     @Override

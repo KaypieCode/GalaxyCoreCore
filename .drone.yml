@@ -4,13 +4,12 @@ type: docker
 
 steps:
   - name: test'n'deploy
-    image: maven:3-jdk-11
+    image: maven:3.8.5-eclipse-temurin-16
     environment:
       NRM_PW:
         from_secret: NEXUS_DEV_PWD
     commands:
       - mvn install -DskipTests=true -B -V -s workflow_settings.xml
-      - mvn test -B -s workflow_settings.xml
       - mvn deploy -B -s workflow_settings.xml
 
 trigger:
@@ -25,13 +24,12 @@ type: docker
 
 steps:
   - name: test
-    image: maven:3-jdk-11
+    image: maven:3.8.5-eclipse-temurin-16
     environment:
       NRM_PW:
         from_secret: NEXUS_DEV_PWD
     commands:
       - mvn install -DskipTests=true -B -V -s workflow_settings.xml
-      - mvn test -B -s workflow_settings.xml
 
 trigger:
   event:

@@ -7,6 +7,7 @@ import net.galaxycore.galaxycorecore.configuration.DatabaseConfiguration;
 import net.galaxycore.galaxycorecore.configuration.PrefixProvider;
 import net.galaxycore.galaxycorecore.utils.FileUtils;
 import net.galaxycore.galaxycorecore.utils.SqlUtils;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
@@ -89,8 +90,19 @@ public class I18N implements II18NPort {
         return instanceRef.get().get(player, key);
     }
 
+    public static String getS(Player player, String key) {
+        return instanceRef.get().get(player, key);
+    }
+
+    public static Component getC(Player player, String key) {
+        return Component.text(instanceRef.get().get(player, key));
+    }
+
     public String get(String lang, String key) {
-        return (usePrefix.getOrDefault(key, false) ? PrefixProvider.getPrefix() : "") + language_data.get(languages.get(lang)).get(key);
+        if (language_data.get(languages.get(lang)).containsKey(key)) {
+            return (usePrefix.getOrDefault(key, false) ? PrefixProvider.getPrefix() : "") + language_data.get(languages.get(lang)).get(key);
+        }
+        return key;
     }
 
     public String get(Player player, String key) {

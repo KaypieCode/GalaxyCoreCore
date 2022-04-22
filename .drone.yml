@@ -10,7 +10,6 @@ steps:
         from_secret: NEXUS_DEV_PWD
     commands:
       - mvn install -DskipTests=true -B -V -s workflow_settings.xml
-      - mvn test -B -s workflow_settings.xml
       - mvn deploy -B -s workflow_settings.xml
 
 trigger:
@@ -31,7 +30,6 @@ steps:
         from_secret: NEXUS_DEV_PWD
     commands:
       - mvn install -DskipTests=true -B -V -s workflow_settings.xml
-      - mvn test -B -s workflow_settings.xml
 
 trigger:
   event:

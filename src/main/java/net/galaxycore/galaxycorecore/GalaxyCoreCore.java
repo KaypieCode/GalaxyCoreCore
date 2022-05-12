@@ -3,6 +3,7 @@ package net.galaxycore.galaxycorecore;
 import lombok.Getter;
 import me.kodysimpson.menumanagersystem.listeners.MenuListener;
 import net.galaxycore.galaxycorecore.apiutils.CoreProvider;
+import net.galaxycore.galaxycorecore.bugfixes.InventoryFFix;
 import net.galaxycore.galaxycorecore.chatlog.ChatLog;
 import net.galaxycore.galaxycorecore.chattools.ChatBuffer;
 import net.galaxycore.galaxycorecore.chattools.ChatClearCommand;
@@ -225,6 +226,9 @@ public class GalaxyCoreCore extends JavaPlugin {
 
         // KMenu //
         Bukkit.getPluginManager().registerEvents(new KMenuListener(), this);
+
+        // FIXES //
+        Bukkit.getPluginManager().registerEvents(new InventoryFFix(), this);
     }
 
     @Override

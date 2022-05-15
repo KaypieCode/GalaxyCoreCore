@@ -6,6 +6,7 @@ authors: [ Bloekchengrafik, Flo-Mit-H ]
 
 depend:
   - LuckPerms
+  - ProtocolLib
 
 commands:
   chattools:

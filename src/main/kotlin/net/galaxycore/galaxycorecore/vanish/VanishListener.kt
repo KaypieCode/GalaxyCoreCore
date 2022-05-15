@@ -11,9 +11,8 @@ import org.bukkit.event.player.PlayerJoinEvent
 
 
 class VanishListener : Listener {
-    private val core = CoreProvider.getCore()
+    private val core = CoreProvider.core
     private val prevVanishedPlayers = mutableSetOf<Player>()
-    private val manager = ProtocolLibrary.getProtocolManager().asynchronousManager
 
     init {
         for (onlinePlayer in Bukkit.getOnlinePlayers()) {
@@ -25,10 +24,15 @@ class VanishListener : Listener {
 
 
         vanishedPlayers.updatelistener {
-            val deltaExit: Set<Player> = prevVanishedPlayers.minus(vanishedPlayers.value)
             val deltaIn: Set<Player> = vanishedPlayers.value.minus(prevVanishedPlayers)
-            deltaExit.forEach(this::unvanish)
             deltaIn.forEach(this::vanish)
+
+            for (player in prevVanishedPlayers) {
+                if (vanishedPlayers.value.contains(player)) {
+                    continue
+                }
+                unvanish(player)
+            }
         }
 
     }
@@ -41,31 +45,39 @@ class VanishListener : Listener {
                 it
             }
         }
+
+
+        for (player in vanishedPlayers.value) {
+            vanish(player)
+        }
     }
 
     private fun vanish(player: Player) {
         for (onlinePlayer in Bukkit.getOnlinePlayers()) {
-            if (player.hasPermission("galaxycore.vanish.tablist")) {
-                // Send "Remove Player" packet
-                manager.packetStream.sendServerPacket(onlinePlayer, core.packetFactory.createEntityDestroyPacket(player.entityId))
-                continue
-            }
-            if (!player.hasPermission("galaxycore.vanish.see")) {
+            if (onlinePlayer == player) continue
+            if (!onlinePlayer.hasPermission("galaxycore.vanish.see")) {
                 onlinePlayer.hidePlayer(core, player)
             }
         }
+        prevVanishedPlayers.add(player)
+
     }
 
     private fun unvanish(player: Player) {
+        println("unvanish")
         for (onlinePlayer in Bukkit.getOnlinePlayers()) {
+            println("unvanish onlinePlayer ${onlinePlayer.name}")
+            if (onlinePlayer == player) continue
             onlinePlayer.showPlayer(core, player)
         }
 
+        prevVanishedPlayers.remove(player)
         vanishStateRestore?.invoke(player)
     }
 
     companion object {
         val vanishedPlayers = Reactive(mutableSetOf<Player>())
         var vanishStateRestore: ((Player) -> Unit)? = null
+        fun isVanished(player: Player) = player.isVanished
     }
 }

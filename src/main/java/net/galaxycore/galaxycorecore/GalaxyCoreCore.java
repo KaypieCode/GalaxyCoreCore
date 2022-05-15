@@ -38,7 +38,7 @@ import java.util.function.BiFunction;
 public class GalaxyCoreCore extends JavaPlugin {
     // CONFIGURATION //
     @Getter
-    private DatabaseConfiguration databaseConfiguration;
+    public DatabaseConfiguration databaseConfiguration;
     private ConfigNamespace coreNamespace;
 
     // FORMATTING //
@@ -63,7 +63,7 @@ public class GalaxyCoreCore extends JavaPlugin {
     private OnlineTime onlineTime;
 
     // PACKETS //
-    private final PacketFactory packetFactory = new PacketFactory();
+    public final PacketFactory packetFactory = new PacketFactory();
 
     @Override
     public void onEnable() {

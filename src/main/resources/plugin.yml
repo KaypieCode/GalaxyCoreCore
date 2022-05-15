@@ -32,3 +32,10 @@ commands:
   pay:
     description: Pay
     usage: /pay <player> <amount>
+
+  vanish:
+    description: Toggle Vanish
+    usage: /vanish
+    aliases:
+      - v
+      - hide

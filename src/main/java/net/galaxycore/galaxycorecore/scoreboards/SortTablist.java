@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -151,12 +152,12 @@ public class SortTablist extends Thread {
 
     @Override
     public synchronized void start() {
-        System.out.println("Starting Tablist Sort Thread...");
+        LoggerFactory.getLogger(SortTablist.class).info("Starting Tablist Sort Thread...");
         super.start();
     }
 
     public void shutdown() {
-        System.out.println("Shutting down Tablist Sort Thread...");
+        LoggerFactory.getLogger(SortTablist.class).info("Shutting down Tablist Sort Thread...");
         this.interrupt();
     }
 

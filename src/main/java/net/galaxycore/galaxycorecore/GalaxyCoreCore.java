@@ -16,6 +16,7 @@ import net.galaxycore.galaxycorecore.configuration.internationalisation.I18NPlay
 import net.galaxycore.galaxycorecore.events.ServerLoadedEvent;
 import net.galaxycore.galaxycorecore.events.ServerTimePassedEvent;
 import net.galaxycore.galaxycorecore.onlinetime.OnlineTime;
+import net.galaxycore.galaxycorecore.packets.PacketFactory;
 import net.galaxycore.galaxycorecore.playerFormatting.ChatFormatter;
 import net.galaxycore.galaxycorecore.playerFormatting.PlayerJoinLeaveListener;
 import net.galaxycore.galaxycorecore.scoreboards.ScoreBoardController;
@@ -23,12 +24,15 @@ import net.galaxycore.galaxycorecore.spice.KMenuListener;
 import net.galaxycore.galaxycorecore.tabcompletion.PlayerTabCompleteListener;
 import net.galaxycore.galaxycorecore.scoreboards.SortTablist;
 import net.galaxycore.galaxycorecore.tpswarn.TPSWarn;
+import net.galaxycore.galaxycorecore.vanish.VanishCommand;
+import net.galaxycore.galaxycorecore.vanish.VanishListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
+import java.util.function.BiFunction;
 
 @Getter
 public class GalaxyCoreCore extends JavaPlugin {
@@ -57,6 +61,9 @@ public class GalaxyCoreCore extends JavaPlugin {
 
     // ONLINE TIME //
     private OnlineTime onlineTime;
+
+    // PACKETS //
+    private final PacketFactory packetFactory = new PacketFactory();
 
     @Override
     public void onEnable() {
@@ -146,6 +153,8 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("de_DE", "core.command.coins.add.success.other", "§cDu hast %d Coins bekommen!", true);
         I18N.setDefaultByLang("de_DE", "core.command.coins.remove.success", "§cDu hast %player% %d Coins entfernt!", true);
         I18N.setDefaultByLang("de_DE", "core.command.coins.remove.success.other", "§cDu hast %d Coins abgezogen bekommen!", true);
+        I18N.setDefaultByLang("de_DE", "core.vanish.on", "§7Du §abist§7 nun im Vanish", true);
+        I18N.setDefaultByLang("de_DE", "core.vanish.off", "§7Du bist nun §cnicht mehr§c im Vanish", true);
 
         I18N.setDefaultByLang("en_GB", "core.chat.tools.open", "§eOpen the Chattools");
         I18N.setDefaultByLang("en_GB", "core.chat.tools.commandfail", "§cPlease Use §e/chattools [ID]", true);
@@ -181,6 +190,8 @@ public class GalaxyCoreCore extends JavaPlugin {
         I18N.setDefaultByLang("en_GB", "core.command.coins.add.success.other", "§cYou got %d Coins added!", true);
         I18N.setDefaultByLang("en_GB", "core.command.coins.remove.success", "§cYou removed %player% %d Coins!", true);
         I18N.setDefaultByLang("en_GB", "core.command.coins.remove.success.other", "§cYou got %d Coins removed!", true);
+        I18N.setDefaultByLang("en_GB", "core.vanish.on", "§aYou are now invisible!", true);
+        I18N.setDefaultByLang("en_GB", "core.vanish.off", "§cYou are not invisible anymore!", true);
 
         // FORMATTING //
         chatFormatter = new ChatFormatter(this);
@@ -222,6 +233,10 @@ public class GalaxyCoreCore extends JavaPlugin {
         // ONLINE TIME //
         this.onlineTime = new OnlineTime(0, 0);
         pluginManager.registerEvents(this.onlineTime, this);
+
+        // VANISH //
+        Objects.requireNonNull(getCommand("vanish")).setExecutor(new VanishCommand());
+        Bukkit.getPluginManager().registerEvents(new VanishListener(), this);
 
         // KMenu //
         Bukkit.getPluginManager().registerEvents(new KMenuListener(), this);

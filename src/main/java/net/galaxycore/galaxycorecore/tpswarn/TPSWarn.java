@@ -4,6 +4,9 @@ import net.galaxycore.galaxycorecore.GalaxyCoreCore;
 import net.galaxycore.galaxycorecore.utils.DiscordWebhook;
 import net.galaxycore.galaxycorecore.utils.ServerNameUtil;
 import org.bukkit.Bukkit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.BasicMarker;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -18,6 +21,8 @@ public class TPSWarn implements Runnable {
 
     public static int tickCount = 0;
     public static long[] ticks = new long[600];
+
+    private static final Logger log = LoggerFactory.getLogger(TPSWarn.class);
 
     public TPSWarn(GalaxyCoreCore core) {
         this.galaxyCoreCore = core;
@@ -52,6 +57,7 @@ public class TPSWarn implements Runnable {
             int minimalAllowedTPS = Integer.parseInt(galaxyCoreCore.getCoreNamespace().get("tpswarn.minimal_allowed_tps"));
 
             if (getTPS() < minimalAllowedTPS) {
+                log.warn("TPS is below the minimal allowed TPS of " + minimalAllowedTPS + "! Current TPS is " + getTPS() + "." + TPSDumper.dumpTimingData(getTPS()));
 
                 DiscordWebhook webhook = new DiscordWebhook(galaxyCoreCore.getCoreNamespace().get("tpswarn.webhook_url"));
 
@@ -69,7 +75,7 @@ public class TPSWarn implements Runnable {
                 try {
                     webhook.execute();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error("Error while Sending TPSWarn WebHook. For Reference: ", e);
                 }
 
             }

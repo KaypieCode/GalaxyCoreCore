@@ -8,7 +8,7 @@ import net.galaxycore.galaxycorecore.utils.IProvider;
 public class CoreProvider implements IProvider<GalaxyCoreCore> {
     @Setter
     @Getter
-    private static GalaxyCoreCore core;
+    public static GalaxyCoreCore core;
 
 
     @Override

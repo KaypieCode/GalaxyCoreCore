@@ -20,11 +20,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Getter
 public class ChatFormatter implements Listener {
     private final GalaxyCoreCore galaxycorecore;
     private final ConfigNamespace configNamespace;
+    private final Logger logger = LoggerFactory.getLogger(ChatFormatter.class);
 
     public ChatFormatter(GalaxyCoreCore galaxycorecore) {
         this.galaxycorecore = galaxycorecore;
@@ -44,6 +47,8 @@ public class ChatFormatter implements Listener {
 
         if (chatMessageEvent.isCancelled())
             return;
+
+        logger.info("[{}/{}] {}", event.getPlayer().getName(), Thread.currentThread().getName(), event.getMessage());
 
         int id = galaxycorecore.getChatBuffer().addMessage(event.getPlayer(), event.getFormat());
 

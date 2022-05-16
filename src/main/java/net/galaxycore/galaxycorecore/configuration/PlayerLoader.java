@@ -22,24 +22,24 @@ public class PlayerLoader {
     @Getter
     private static final HashMap<UUID, PlayerLoader> loaderHashMap = new HashMap<>();
 
-    private final int id;
-    private final UUID uuid;
-    private final String lastname;
-    private final Date firstlogin;
-    private final Date lastlogin;
-    private final Date last_daily_reward;
-    private final int banpoints;
-    private final int mutepoints;
-    private final int warnpoints;
-    private final int reports;
-    private final boolean teamlogin;
-    private final boolean debug;
-    private final boolean socialspy;
-    private final boolean commandspy;
-    private final boolean vanished;
-    private final boolean nicked;
-    private final int lastnick;
-    private final long coins;
+    public final int id;
+    public final UUID uuid;
+    public final String lastname;
+    public final Date firstlogin;
+    public final Date lastlogin;
+    public final Date last_daily_reward;
+    public final int banpoints;
+    public final int mutepoints;
+    public final int warnpoints;
+    public final int reports;
+    public final boolean teamlogin;
+    public final boolean debug;
+    public final boolean socialspy;
+    public final boolean commandspy;
+    public final boolean vanished;
+    public final boolean nicked;
+    public final int lastnick;
+    public final long coins;
 
     public static PlayerLoader loadNew(Player player){
         PlayerLoader playerLoader = PlayerLoader.buildLoader(player);

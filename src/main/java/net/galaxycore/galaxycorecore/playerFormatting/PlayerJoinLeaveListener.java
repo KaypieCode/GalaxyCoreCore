@@ -7,6 +7,7 @@ import net.galaxycore.galaxycorecore.chattools.ChatManager;
 import net.galaxycore.galaxycorecore.chattools.ChatMessage;
 import net.galaxycore.galaxycorecore.chattools.OtherChatMessageTypes;
 import net.galaxycore.galaxycorecore.permissions.FrozenApiWrapper;
+import net.galaxycore.galaxycorecore.vanish.VanishListener;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,6 +26,10 @@ public class PlayerJoinLeaveListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        if(VanishListener.Companion.isVanished(player)){
+            event.joinMessage(Component.text(""));
+            return;
+        }
 
         ChatMessage chatMessage = new ChatMessage(core.getChatBuffer().getCurrentId(), player, "core.event.join", 500);
         chatMessage.setOthertype(OtherChatMessageTypes.I18N_PJL);
@@ -42,6 +47,10 @@ public class PlayerJoinLeaveListener implements Listener {
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        if(VanishListener.Companion.isVanished(player)){
+            event.quitMessage(Component.text(""));
+            return;
+        }
 
         ChatMessage chatMessage = new ChatMessage(core.getChatBuffer().getCurrentId(), player, "core.event.leave", 500);
         chatMessage.setOthertype(OtherChatMessageTypes.I18N_PJL);

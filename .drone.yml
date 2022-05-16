@@ -9,8 +9,8 @@ steps:
       NRM_PW:
         from_secret: NEXUS_DEV_PWD
     commands:
-      - mvn install -DskipTests=true -B -V -s workflow_settings.xml
-      - mvn deploy -DskipTests=true -B -s workflow_settings.xml
+      - mvn install -B -V -s workflow_settings.xml
+      - mvn deploy -B -s workflow_settings.xml
 
 trigger:
   branch:
@@ -29,7 +29,7 @@ steps:
       NRM_PW:
         from_secret: NEXUS_DEV_PWD
     commands:
-      - mvn install -DskipTests=true -B -V -s workflow_settings.xml
+      - mvn install -B -V -s workflow_settings.xml
 
 trigger:
   event:

@@ -22,7 +22,7 @@ public class DiscordWebhook {
     private String username;
     private String avatarUrl;
     private boolean tts;
-    private List<EmbedObject> embeds = new ArrayList<>();
+    private final List<EmbedObject> embeds = new ArrayList<>();
 
     /**
      * Constructs a new DiscordWebhook instance
@@ -146,7 +146,6 @@ public class DiscordWebhook {
         connection.setDoOutput(true);
         connection.setRequestMethod("POST");
 
-        System.out.println(json.toString());
         OutputStream stream = connection.getOutputStream();
         stream.write(json.toString().getBytes());
         stream.flush();
@@ -166,7 +165,7 @@ public class DiscordWebhook {
         private Thumbnail thumbnail;
         private Image image;
         private Author author;
-        private List<Field> fields = new ArrayList<>();
+        private final List<Field> fields = new ArrayList<>();
 
         public String getTitle() {
             return title;

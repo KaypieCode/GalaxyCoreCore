@@ -6,6 +6,7 @@ authors: [ Bloekchengrafik, Flo-Mit-H ]
 
 depend:
   - LuckPerms
+  - ProtocolLib
 
 commands:
   chattools:
@@ -32,3 +33,10 @@ commands:
   pay:
     description: Pay
     usage: /pay <player> <amount>
+
+  vanish:
+    description: Toggle Vanish
+    usage: /vanish
+    aliases:
+      - v
+      - hide

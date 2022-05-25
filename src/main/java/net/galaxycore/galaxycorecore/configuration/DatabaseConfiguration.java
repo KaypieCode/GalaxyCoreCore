@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class DatabaseConfiguration {
     @Getter private final InternalConfiguration internalConfiguration;
-    @Getter private Connection connection;
+    @Getter public Connection connection;
 
     public DatabaseConfiguration(InternalConfiguration internalConfiguration){
         this.internalConfiguration = internalConfiguration;
